@@ -1,7 +1,7 @@
 /**
- * A simple and flexible system for world-building using an arbitrary collection of character and item attributes
- * Author: Atropos
- * Software License: GNU GPLv3
+ * A small arms combat system
+ * Author: mbutler
+ * Software License: MIT
  */
 
 // Import Modules
@@ -23,7 +23,7 @@ Hooks.once("init", async function() {
 
   // Register sheet application classes
   Actors.unregisterSheet("core", ActorSheet);
-  Actors.registerSheet("dnd5e", SimpleActorSheet, { makeDefault: true });
+  Actors.registerSheet("phoenixcommand", SimpleActorSheet, { makeDefault: true });
   Items.unregisterSheet("core", ItemSheet);
-  Items.registerSheet("dnd5e", SimpleItemSheet, {makeDefault: true});
+  Items.registerSheet("phoenixcommand", SimpleItemSheet, {makeDefault: true});
 });
