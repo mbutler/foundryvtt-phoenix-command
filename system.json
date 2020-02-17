@@ -1,0 +1,20 @@
+{
+  "name": "phoenixcommand",
+  "title": "Phoenix Command",
+  "description": "A small arms combat system",
+  "version": 0.1,
+  "minimumCoreVersion": "0.4.4",
+  "templateVersion": 2,
+  "author": "mbutler",
+  "esmodules": ["module/phoenixcommand.js"],
+  "styles": ["styles/phoenixcommand.css"],
+  "packs": [],
+  "initiative": "1d20",
+  "gridDistance": 5,
+  "gridUnits": "ft",
+  "primaryTokenAttribute": "health",
+  "secondaryTokenAttribute": "power",
+  "url": "https://github.com/mbutler/foundryvtt-phoenix-command",
+  "manifest": "https://raw.githubusercontent.com/mbutler/foundryvtt-phoenix-command/master/system.json",
+  "download": ""
+}
