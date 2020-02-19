@@ -10,34 +10,44 @@
                 <input type="text" name="data.skill-level.value" value="{{data.skill-level.value}}" data-dtype="Number"/>
             </div>
             <div class="resource">
-                Strength
-                <input type="text" name="data.strength.value" value="{{data.strength.value}}" data-dtype="Number"/>
-                Intelligence
-                <input type="text" name="data.Intelligence.value" value="{{data.intelligence.value}}" data-dtype="Number"/>
-                Will
-                <input type="text" name="data.will.value" value="{{data.will.value}}" data-dtype="Number"/>
-                Health
-                <input type="text" name="data.health.value" value="{{data.health.value}}" data-dtype="Number"/>
-                Agility
-                <input type="text" name="data.agility.value" value="{{data.agility.value}}" data-dtype="Number"/>
+                
             </div>
         </div>
     </header>
 
     {{!-- Sheet Tab Navigation --}}
     <nav class="sheet-tabs tabs" data-group="primary">
-        <a class="item" data-tab="description">Description</a>
-        <a class="item" data-tab="items">Items</a>
-        <a class="item" data-tab="attributes">Attributes</a>
+        <a class="item" data-tab="characteristics">Characteristics</a>
+        <a class="item" data-tab="weapons">Weapons</a>
+        <a class="item" data-tab="armor">Armor</a>
     </nav>
 
     {{!-- Sheet Body --}}
     <section class="sheet-body">
 
-        {{!-- Biography Tab --}}
-        <div class="tab biography active" data-group="primary" data-tab="description">
-            {{editor content=data.biography target="data.biography" button=true owner=owner editable=editable}}
-        </div>
+        {{!-- Characteristics Tab --}}
+        <ul class="characteristics">
+            <li>
+                <h4 class="characteristic-name box-title">Strength</h4>
+                <input type="text" name="data.strength.value" value="{{data.strength.value}}" data-dtype="Number"/>
+            </li>
+            <li>
+                <h4 class="characteristic-name box-title">Intelligence</h4>
+                <input type="text" name="data.Intelligence.value" value="{{data.intelligence.value}}" data-dtype="Number"/>
+            </li>
+            <li>
+                <h4 class="characteristic-name box-title">Will</h4>
+                <input type="text" name="data.will.value" value="{{data.will.value}}" data-dtype="Number"/>
+            </li>
+            <li>
+                <h4 class="characteristic-name box-title">Health</h4>
+                <input type="text" name="data.health.value" value="{{data.health.value}}" data-dtype="Number"/>
+            </li>
+            <li>
+                <h4 class="characteristic-name box-title">Agility</h4>
+                <input type="text" name="data.agility.value" value="{{data.agility.value}}" data-dtype="Number"/>
+            </li>
+        </ul>
 
         {{!-- Owned Items Tab --}}
         <div class="tab items" data-group="primary" data-tab="items">
