@@ -1,7 +1,7 @@
 /**
  * Extend the basic ItemSheet with some very simple modifications
  */
-export class SimpleItemSheet extends ItemSheet {
+export class PhoenixItemSheet extends ItemSheet {
   constructor(...args) {
     super(...args);
 
@@ -13,7 +13,7 @@ export class SimpleItemSheet extends ItemSheet {
   }
 
   /**
-   * Extend and override the default options used by the Simple Item Sheet
+   * Extend and override the default options used by the Phoenix Item Sheet
    * @returns {Object}
    */
 	static get defaultOptions() {

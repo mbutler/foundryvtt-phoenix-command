@@ -5,15 +5,15 @@
  */
 
 // Import Modules
-import { SimpleItemSheet } from "./item-sheet.js";
-import { SimpleActorSheet } from "./actor-sheet.js";
+import { PhoenixItemSheet } from "./item-sheet.js";
+import { PhoenixActorSheet } from "./actor-sheet.js";
 
 /* -------------------------------------------- */
 /*  Foundry VTT Initialization                  */
 /* -------------------------------------------- */
 
 Hooks.once("init", async function() {
-  console.log(`Initializing Simple Worldbuilding System`);
+  console.log(`Initializing Phoenix Command`);
 
 	/**
 	 * Set an initiative formula for the system
@@ -23,7 +23,7 @@ Hooks.once("init", async function() {
 
   // Register sheet application classes
   Actors.unregisterSheet("core", ActorSheet);
-  Actors.registerSheet("phoenixcommand", SimpleActorSheet, { makeDefault: true });
+  Actors.registerSheet("phoenixcommand", PhoenixActorSheet, { makeDefault: true });
   Items.unregisterSheet("core", ItemSheet);
-  Items.registerSheet("phoenixcommand", SimpleItemSheet, {makeDefault: true});
+  Items.registerSheet("phoenixcommand", PhoenixItemSheet, {makeDefault: true});
 });

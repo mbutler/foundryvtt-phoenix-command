@@ -1,7 +1,7 @@
 /**
  * Extend the basic ActorSheet with some very simple modifications
  */
-export class SimpleActorSheet extends ActorSheet {
+export class PhoenixActorSheet extends ActorSheet {
   constructor(...args) {
     super(...args);
 
@@ -15,7 +15,7 @@ export class SimpleActorSheet extends ActorSheet {
   /* -------------------------------------------- */
 
   /**
-   * Extend and override the default options used by the 5e Actor Sheet
+   * Extend and override the default options used by the Actor Sheet
    * @returns {Object}
    */
 	static get defaultOptions() {
