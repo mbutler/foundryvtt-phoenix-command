@@ -1,0 +1,842 @@
+.phoenix-record-sheet .window-content{
+  container-type:inline-size;
+  padding:0;
+  overflow:auto;
+  background:var(--pc-bg-0,#0b0f0e);
+  color:var(--pc-text,#e6ebe7);
+}
+.pc-record{
+  --pc-ink:var(--pc-text,#e6ebe7);
+  --pc-paper:var(--pc-bg-1,#111714);
+  --pc-green:var(--pc-accent,#6fe0cf);
+  --pc-rust:var(--pc-danger,#d26b5d);
+  box-sizing:border-box;
+  min-height:100%;
+  padding:16px;
+  background:
+    linear-gradient(90deg,rgba(111,224,207,.04) 1px,transparent 1px) 0 0/28px 28px,
+    linear-gradient(rgba(111,224,207,.04) 1px,transparent 1px) 0 0/28px 28px,
+    var(--pc-bg-0,#0b0f0e);
+  color:var(--pc-ink);
+  font:12px/1.4 var(--pc-font,system-ui,sans-serif);
+}
+.pc-record *{box-sizing:border-box}
+.pc-record h1,.pc-record h2,.pc-record h3,.pc-record h4,.pc-record p{margin:0;border:0;color:inherit;text-shadow:none}
+.pc-record h1{margin:3px 0;font:650 24px/1.1 var(--pc-font);letter-spacing:-.035em}
+.pc-record-header{display:flex;align-items:center;gap:12px;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--pc-accent)}
+.pc-record-header>img{width:52px;height:52px;object-fit:cover;border:1px solid var(--pc-line);border-radius:var(--pc-radius);filter:saturate(.7) contrast(1.05)}
+.pc-record-header>div:nth-child(2){flex:1;min-width:0}
+.pc-record-kicker span{display:block;margin-top:2px;color:var(--pc-muted);font-size:8px;letter-spacing:.1em}
+.pc-record-tools{display:flex;flex-wrap:wrap;gap:5px;max-width:280px}
+.pc-record button{
+  width:auto;
+  min-height:28px;
+  padding:4px 8px;
+  border:1px solid var(--pc-line-strong);
+  border-radius:var(--pc-radius);
+  background:var(--pc-bg-2);
+  box-shadow:none;
+  color:var(--pc-text);
+  cursor:pointer;
+  font:650 10px/1.2 var(--pc-font);
+}
+.pc-record button:hover{border-color:var(--pc-accent);background:var(--pc-bg-3)}
+.pc-record button.pc-save,.pc-record button.pc-attack{border-color:var(--pc-accent);background:var(--pc-accent);color:#061014}
+.pc-record button.pc-attack{white-space:nowrap}
+.pc-record .pc-link{min-height:22px;padding:0;border:0;background:none;color:var(--pc-text);text-align:left;text-decoration:none;overflow-wrap:anywhere}
+.pc-record .pc-link:hover{color:var(--pc-accent-strong)}
+.pc-record :focus-visible,.pc-dialog :focus-visible,.combat-tracker .pc-impulse-entry :focus-visible{outline:2px solid var(--pc-accent-strong);outline-offset:2px}
+.pc-sheet-muted,.pc-empty{color:var(--pc-muted)!important;font-size:10px}
+.pc-empty{padding:5px 0}
+.pc-record-columns{display:grid;grid-template-columns:1fr 1.35fr 1fr;gap:8px;align-items:start}
+.pc-play{margin-bottom:8px}
+.pc-play-actions{display:flex;flex-wrap:wrap;gap:4px}
+.pc-status{order:1}.pc-loadout{order:2}.pc-characteristics{order:3}
+.pc-record-panel{min-width:0;padding:11px;border:1px solid var(--pc-line);border-radius:var(--pc-radius);background:rgba(17,23,20,.94)}
+.pc-record h2{display:flex;align-items:baseline;gap:7px;margin:0 0 10px;color:var(--pc-accent-strong);font:700 11px/1.35 var(--pc-font);letter-spacing:.04em;text-transform:uppercase}
+.pc-record h2>span{color:var(--pc-faint);font:500 9px var(--pc-mono)}
+.pc-record h3{margin:14px 0 6px;color:var(--pc-muted);font:700 9px/1.4 var(--pc-font);letter-spacing:.1em;text-transform:uppercase}
+.pc-record h4{margin:9px 0 3px;font-size:10px}
+.pc-stat-row{display:flex;align-items:baseline;justify-content:space-between;gap:8px;padding:4px 0;border-bottom:1px solid rgba(82,100,86,.35);font-size:10px}
+.pc-stat-row strong{font:650 15px/1.1 var(--pc-mono);font-variant-numeric:tabular-nums}
+.pc-record details{margin-top:8px;font-size:10px}
+.pc-record details>p{margin:6px 0}
+.pc-record summary{color:var(--pc-accent);cursor:pointer;font-size:9px;font-weight:700;letter-spacing:.03em}
+.pc-record details[open]>summary{margin-bottom:6px}
+.pc-record table{width:100%;margin:5px 0;border:0;border-collapse:collapse;background:none;font-size:9px;font-variant-numeric:tabular-nums}
+.pc-record thead{border:0;background:var(--pc-bg-3);color:var(--pc-muted)}
+.pc-record tr{background:none}
+.pc-record td,.pc-record th{padding:4px;border-bottom:1px solid var(--pc-line);text-align:left}
+.pc-record th{font-weight:700}
+.pc-table-scroll{overflow:auto}
+.pc-armor-entry{padding:5px 0;border-bottom:1px solid var(--pc-line)}
+.pc-armor-entry p{color:var(--pc-muted);font-size:9px}
+.pc-armor-entry p span{display:block;font-family:var(--pc-mono);font-variant-numeric:tabular-nums}
+.pc-equipment-list{margin:0;padding:0;list-style:none}
+.pc-equipment-list li{display:flex;align-items:baseline;justify-content:space-between;gap:6px;padding:4px 0;border-bottom:1px solid rgba(82,100,86,.35)}
+.pc-equipment-list li>span{color:var(--pc-muted);font-size:9px;white-space:nowrap}
+.pc-weight{margin-top:10px;padding-top:8px;border-top:1px solid var(--pc-line)}
+.pc-metric{display:flex;flex-direction:column;gap:2px}
+.pc-metric>span{color:var(--pc-muted);font-size:8px;letter-spacing:.05em;text-transform:uppercase}
+.pc-metric>strong{font:650 15px/1.1 var(--pc-mono);font-variant-numeric:tabular-nums}
+.pc-damage-total{padding:2px 0 7px}
+.pc-damage-total .pc-metric>strong{color:var(--pc-accent-strong);font-size:34px;font-weight:450}
+.pc-add-equipment{display:flex;flex-wrap:wrap;gap:4px}
+.pc-add-equipment button{padding:4px 6px;font-size:9px}
+.pc-weapons{margin-top:8px}
+.pc-weapon+.pc-weapon{margin-top:9px;padding-top:9px;border-top:1px solid var(--pc-line)}
+.pc-weapon-heading{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.pc-weapon-heading .pc-link{font-size:13px;font-weight:700}
+.pc-weapon-heading p{color:var(--pc-muted);font-size:8px}
+.pc-weapon-stats{display:flex;flex-wrap:wrap;gap:22px;margin:8px 0}
+.pc-attack-list{display:flex;align-items:center;gap:5px}
+.pc-record-footer{margin-top:12px;padding-top:8px;border-top:1px solid var(--pc-line);color:var(--pc-muted);font-size:8px}
+.pc-sheet-warning{padding:6px 8px;border-inline-start:3px solid var(--pc-danger);background:rgba(210,107,93,.08)}
+.pc-record .form-group{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:5px 0}
+.pc-record .form-group>label{flex:1;color:var(--pc-muted);font-size:10px;font-weight:600}
+.pc-record .form-fields{flex:1;min-width:0}
+.pc-record input,.pc-record select,.pc-record textarea{
+  min-height:28px;
+  padding:4px 7px;
+  border:1px solid var(--pc-line-strong);
+  border-radius:var(--pc-radius);
+  background:var(--pc-bg-0);
+  color:var(--pc-text);
+  font:11px/1.3 var(--pc-font);
+}
+.pc-record input[type=checkbox]{width:15px;min-height:15px;accent-color:var(--pc-accent)}
+.pc-characteristics input{max-width:84px}
+.pc-item-core{display:grid;grid-template-columns:1fr 1fr;gap:0 18px;padding:5px 0 10px;border-bottom:1px solid var(--pc-line)}
+.pc-field-section{padding:8px;border:1px solid var(--pc-line);border-radius:var(--pc-radius);background:var(--pc-bg-1)}
+.pc-field-section>.pc-field-section{margin-left:6px}
+.pc-item-record>.form-group{padding:3px 0}
+.pc-item-record .form-fields{flex:1.4}
+.pc-record string-tags{color:var(--pc-text)}
+
+/* Focused attack flow */
+.pc-attack-flow header{margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid var(--pc-accent)}
+.pc-attack-summary{display:flex;justify-content:space-between;gap:12px;margin-top:8px;padding:7px 8px;border:1px solid var(--pc-line);background:var(--pc-bg-1)}
+.pc-attack-summary strong{font:650 17px var(--pc-mono)}
+.pc-attack-summary span{color:var(--pc-muted);font-size:10px}
+.pc-flow-fields{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+.pc-flow-fields label,.pc-attack-flow section>label{display:flex;flex-direction:column;gap:4px;color:var(--pc-muted);font-size:10px;font-weight:650}
+.pc-attack-flow label select,.pc-attack-flow label input{width:100%}
+.pc-flow-actions{display:flex;justify-content:flex-end;gap:6px;margin:10px 0}
+.pc-attack-flow [data-outcome]:not(:empty){margin:10px 0;padding:12px;border:1px solid var(--pc-line);border-inline-start:3px solid var(--pc-accent);border-radius:var(--pc-radius);background:var(--pc-bg-1)}
+.pc-attack-flow [data-outcome] h2{font-size:18px}
+.pc-attack-flow [data-outcome] button{margin-top:9px}
+.pc-attack-flow footer{margin-top:12px;padding-top:9px;border-top:1px solid var(--pc-line)}
+.pc-attack-flow footer p{margin-top:5px;color:var(--pc-muted);font-size:9px}
+.pc-attack-flow dl{display:grid;grid-template-columns:1fr 1fr;gap:4px}
+.pc-attack-flow dd{margin:0;text-align:right;font-family:var(--pc-mono)}
+.pc-attack-flow pre{max-height:220px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;font-size:9px}
+.pc-flow-error{margin:7px 0!important;color:#f1a097!important}
+.pc-attack-flow .pc-sheet-warning{font-size:9px}
+.pc-attack-flow details p{font-size:9px}
+.pc-attack-flow button:disabled{cursor:default;opacity:.45}
+.pc-telemetry{display:flex;flex-wrap:wrap;gap:4px;margin:7px 0}
+.pc-chip{display:inline-flex;align-items:center;gap:4px;min-height:20px;padding:2px 6px;border:1px solid var(--pc-line);border-radius:999px;background:var(--pc-bg-2);color:var(--pc-muted);font:650 8px var(--pc-mono);letter-spacing:.03em;text-transform:uppercase}
+.pc-chip[data-state=ready],.pc-chip[data-tone=good]{border-color:var(--pc-accent);color:var(--pc-accent-strong)}
+.pc-chip[data-tone=warn]{border-color:var(--pc-warn);color:var(--pc-warn)}
+.pc-chip[data-tone=danger]{border-color:var(--pc-danger);color:#ef9b90}
+
+/* Combat sidebar */
+.combat-tracker .combatant:has(.pc-impulse-entry){flex-wrap:wrap}
+.pc-impulse-entry{flex:0 0 100%;padding:5px 8px 8px;border-bottom:1px solid var(--pc-line,#1e4248);background:linear-gradient(90deg,rgba(111,224,207,.04),transparent 45%);font:10px/1.3 var(--pc-font,system-ui,sans-serif)}
+.pc-impulse-entry p{margin:3px 0}
+.pc-impulse-entry .pc-combat-readout{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:7px;margin-bottom:5px}
+.pc-action-value{min-width:28px;color:var(--pc-accent-strong,#d5fff6);font:700 19px/1 var(--pc-mono,monospace);text-align:center}
+.pc-action-meta{min-width:0;color:var(--pc-muted,#93a097);font-size:9px}
+.pc-action-meta strong{display:block;overflow:hidden;color:var(--pc-text,#e6ebe7);font-size:10px;text-overflow:ellipsis;white-space:nowrap}
+.pc-progress{height:3px;margin-top:4px;overflow:hidden;background:var(--pc-bg-0,#0b0f0e)}
+.pc-progress>span{display:block;height:100%;background:var(--pc-accent,#6fe0cf)}
+.pc-combat-status{display:flex;flex-wrap:wrap;gap:3px;margin:4px 0}
+.pc-timing-actions{display:flex;flex-wrap:wrap;gap:4px;margin:5px 0}
+.pc-timing-actions button{width:auto;min-height:24px;padding:3px 6px;border:1px solid var(--pc-line-strong,#526456);border-radius:2px;background:var(--pc-bg-2,#18211c);font-size:9px}
+.pc-timing-actions button[data-primary=true]{border-color:var(--pc-accent,#6fe0cf);background:var(--pc-accent,#6fe0cf);color:#061014;font-weight:750}
+.pc-order-overflow{margin-top:4px}
+.pc-timing-actions button:disabled{opacity:.35}
+.pc-impulse-entry details,.pc-impulse-footer details{margin-top:5px;color:var(--pc-muted,#93a097);font-size:9px;line-height:1.35}
+.pc-impulse-entry summary,.pc-impulse-footer summary{color:var(--pc-faint,#66736a);cursor:pointer;font-size:8px;text-transform:uppercase}
+.pc-impulse-footer{display:flex!important;flex-direction:column;gap:5px;padding:8px!important;border-top:1px solid var(--pc-line,#334238);background:var(--pc-bg-1,#111714)}
+.pc-impulse-footer p{margin:0;color:var(--pc-muted,#93a097);font-size:9px;text-align:center}
+.pc-impulse-footer>button{width:100%;min-height:28px}
+.pc-impulse-footer>button[data-timing=advance],.pc-impulse-footer>button[data-timing=start]{border-color:var(--pc-accent,#6fe0cf);background:var(--pc-accent,#6fe0cf);color:#061014;font-weight:750}
+
+/* Shared compact DialogV2 content */
+.pc-dialog,.pc-activity-selector,.pc-sightline{display:grid;gap:8px;color:var(--pc-text,#e6ebe7);font:11px/1.35 var(--pc-font,system-ui,sans-serif)}
+.pc-dialog p,.pc-activity-selector p,.pc-sightline p{margin:0}
+.pc-dialog label,.pc-activity-selector label,.pc-sightline label{display:grid;gap:3px;color:var(--pc-muted,#93a097);font-size:9px;font-weight:650;letter-spacing:.02em}
+.pc-dialog input,.pc-dialog select,.pc-activity-selector input,.pc-activity-selector select,.pc-sightline input,.pc-sightline select{min-height:30px;border:1px solid var(--pc-line-strong,#526456);border-radius:var(--pc-radius,3px);background:var(--pc-bg-0,#0b0f0e);color:var(--pc-text,#e6ebe7);font-size:11px}
+.pc-dialog select[data-choice],.pc-activity-selector select[data-choice]{width:100%;height:9rem}
+.pc-dialog [data-preview],.pc-activity-selector [data-preview]{margin:0;padding:7px 8px;border:1px solid var(--pc-line,#334238);border-inline-start:3px solid var(--pc-accent,#6fe0cf);background:var(--pc-bg-2,#18211c);color:var(--pc-text,#e6ebe7);font-family:var(--pc-mono,monospace);font-size:9px}
+.pc-dialog [hidden],.pc-activity-selector [hidden]{display:none!important}
+.pc-custom-toggle{display:flex!important;align-items:center;gap:6px}
+.pc-custom-toggle input{width:auto;min-height:auto}
+.pc-help{color:var(--pc-muted);font-size:9px}
+.pc-dialog details{padding:6px;border:1px solid var(--pc-line);background:var(--pc-bg-1)}
+.pc-dialog summary{color:var(--pc-accent);cursor:pointer;font-size:9px;font-weight:700}
+
+/* Chat cards */
+.chat-message .phoenix-command{display:grid;gap:6px;padding:7px;border-inline-start:3px solid var(--pc-accent,#6fe0cf);background:rgba(17,23,20,.92);color:var(--pc-text,#e6ebe7);font:10px/1.35 var(--pc-font,system-ui,sans-serif)}
+.chat-message .phoenix-command h2,.chat-message .phoenix-command h3,.chat-message .phoenix-command p{margin:0;border:0;color:inherit}
+.chat-message .phoenix-command h2{color:var(--pc-accent-strong,#d5fff6);font-size:15px}
+.chat-message .phoenix-command details{color:var(--pc-muted,#93a097);font-size:9px}
+.chat-message .phoenix-command button{min-height:26px;border-color:var(--pc-line-strong,#526456);border-radius:2px;background:var(--pc-bg-2,#18211c);color:var(--pc-text,#e6ebe7);font-size:9px}
+.chat-message .pc-card-actions{display:flex;flex-wrap:wrap;gap:4px}
+.chat-message .pc-card-actions button[type=button]{border-color:var(--pc-accent,#6fe0cf);background:var(--pc-accent,#6fe0cf);color:#061014;font-weight:750}
+
+/* Canvas tactical HUD */
+.pc-arc-hud{position:fixed;z-index:10000;left:50%;bottom:24px;transform:translateX(-50%);min-width:300px;max-width:min(540px,calc(100vw - 32px));padding:9px 11px;border:1px solid rgba(111,224,207,.45);border-radius:0;background:#071114f5;box-shadow:0 18px 48px #000c;color:var(--pc-text,#e5f6f2);font:10px/1.35 var(--pc-font,system-ui,sans-serif);pointer-events:none}
+.pc-arc-hud strong{color:var(--pc-accent-strong,#d5fff6);font-family:var(--pc-mono,monospace);text-shadow:0 0 10px rgba(111,224,207,.3)}
+
+@container(max-width:760px){
+  .pc-record-columns{grid-template-columns:1fr 1fr}
+  .pc-status{grid-column:1/-1}
+  .pc-record{padding:12px}
+  .pc-record-header{flex-wrap:wrap}
+  .pc-record-tools{max-width:none}
+  .pc-weapon-stats{gap:14px}
+}
+@container(max-width:480px){
+  .pc-record-columns,.pc-item-core,.pc-flow-fields{grid-template-columns:1fr}
+  .pc-record-header>img{width:42px;height:42px}
+  .pc-record h1{font-size:20px}
+  .pc-record-tools{width:100%}
+  .pc-weapon-heading{align-items:flex-start;flex-direction:column}
+}
+.pc-impulse-entry .pc-next-step{margin:5px 0 7px;color:var(--pc-text,#e6ebe7);font-size:11px;line-height:1.4}
+#pc-token-actions{position:fixed;z-index:60;bottom:100px;left:50%;transform:translateX(-50%);width:min(440px,calc(100vw - 440px));padding:12px 16px;background:color-mix(in srgb,var(--pc-bg-1,#0c181c) 96%,transparent);border:1px solid rgba(111,224,207,.45);border-radius:0;box-shadow:0 18px 48px #000c;color:var(--pc-text,#e5f6f2);font:13px/1.4 var(--pc-font,system-ui,sans-serif);pointer-events:auto}
+#pc-token-actions .pc-token-heading{display:flex;gap:12px;justify-content:space-between;align-items:baseline}
+#pc-token-actions .pc-token-heading span{color:var(--pc-muted,#93a097);font-size:11px;white-space:nowrap}
+#pc-token-actions p{margin:7px 0}
+#pc-token-actions .pc-token-buttons{display:flex;flex-wrap:wrap;gap:6px;align-items:stretch}
+#pc-token-actions button{width:auto;flex:1 0 auto;height:auto;line-height:1.35;white-space:nowrap;padding:7px 10px;display:flex;align-items:center;justify-content:center;gap:4px;background:var(--pc-bg-2,#12242a);color:var(--pc-text,#e5f6f2);border:1px solid rgba(111,224,207,.4);min-height:32px;border-radius:0}
+#pc-token-actions button:hover{background:var(--pc-bg-3,#202c25);border-color:var(--pc-accent,#6fe0cf)}
+#pc-token-actions button:focus-visible{outline:2px solid var(--pc-accent-strong,#d5fff6);outline-offset:2px}
+#pc-token-actions button:disabled{opacity:.45}
+#pc-token-actions details{margin-top:7px;color:var(--pc-muted,#93a097);font-size:11px}
+#pc-token-actions summary{cursor:pointer;color:var(--pc-accent,#6fe0cf)}
+#pc-token-actions .pc-next-step{color:var(--pc-text,#e6ebe7);font-size:12px;line-height:1.45}
+@media(max-width:850px){#pc-token-actions{left:80px;transform:none;width:calc(100vw - 420px);min-width:240px}.pc-token-heading{flex-wrap:wrap}}
+@media(max-width:520px){#pc-token-actions{left:8px;right:8px;width:auto;bottom:72px;padding:10px 12px}#pc-token-actions .pc-token-buttons{flex-wrap:wrap}#pc-token-actions button{min-width:calc(50% - 4px)}}
+#pc-token-actions .pc-keyhint{display:inline-block;min-width:1.1em;margin-right:4px;border:1px solid var(--pc-line-strong,#526456);border-radius:3px;font:10px/1.2 var(--pc-mono,monospace);text-align:center;color:var(--pc-muted,#93a097)}
+#pc-token-actions .pc-quick-orders{display:grid;gap:5px;margin:8px 0}
+.pc-map-move{position:fixed;z-index:70;right:16px;top:96px;width:min(320px,calc(100vw - 32px));padding:12px 14px;border:1px solid rgba(111,224,207,.45);border-radius:0;background:color-mix(in srgb,var(--pc-bg-1,#0c181c) 96%,transparent);box-shadow:0 18px 48px #000c;color:var(--pc-text,#e5f6f2);font:12px/1.4 var(--pc-font,system-ui,sans-serif)}
+.pc-map-move-actions{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.pc-map-move-actions button{flex:1;min-width:88px;min-height:30px;border:1px solid var(--pc-line-strong,#526456);border-radius:var(--pc-radius,3px);background:var(--pc-bg-2,#18211c);color:var(--pc-text,#e6ebe7);font-size:11px}
+.pc-map-move-actions button[data-commit-move]{border-color:var(--pc-accent,#6fe0cf);background:var(--pc-accent,#6fe0cf);color:#061014;font-weight:750}
+.pc-map-move-actions button:disabled{opacity:.45}
+.pc-hex-move [data-route-summary]{margin:6px 0 0;padding:6px 8px;border:1px solid var(--pc-line,#334238);border-inline-start:3px solid var(--pc-info,#75a9a0);background:var(--pc-bg-2,#18211c);font:10px/1.35 var(--pc-mono,monospace)}
+.pc-weapon-order [data-primary] label{display:block;margin:8px 0}
+.pc-weapon-order [data-primary] select{width:100%}
+#pc-token-actions .pc-quick-orders button{text-align:left;white-space:normal;height:auto;padding:6px 9px;font-size:12px}
+#pc-token-actions{max-height:calc(100vh - 220px);overflow:auto}
+
+/* Character record: play reference first, supporting records second. */
+.pc-record:not(.pc-item-record){font-size:14px;line-height:1.5;background:var(--pc-bg-0,#0b0f0e);padding:20px}
+.pc-record h1{font-size:28px}
+.pc-record-panel{padding:18px;border-color:var(--pc-line);border-radius:6px}
+.pc-record h2{font-size:16px;font-weight:650;letter-spacing:0;text-transform:none;color:var(--pc-text)}
+.pc-record h3{font-size:12px;font-weight:600;letter-spacing:0;text-transform:none;color:var(--pc-muted)}
+.pc-record .pc-sheet-muted,.pc-record .pc-empty{font-size:12px;line-height:1.5}
+.pc-record button{font-size:12px;min-height:32px;padding:6px 10px}
+.pc-record .pc-link{padding:0;min-height:26px;font-weight:500}
+.pc-record .pc-rule-note{font-size:12px;line-height:1.5;color:var(--pc-muted);margin:10px 0}
+.pc-record .pc-play{border-top:3px solid var(--pc-accent);margin-bottom:16px}
+.pc-combat-heading,.pc-section-heading{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.pc-phase-total{font-size:13px;color:var(--pc-muted)}
+.pc-impulse-schedule{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--pc-line);border:1px solid var(--pc-line);border-radius:5px;overflow:hidden;margin:6px 0 12px}
+.pc-impulse-schedule>div{display:grid;justify-items:center;padding:10px 6px;background:var(--pc-bg-2)}
+.pc-impulse-schedule span{font-size:12px;color:var(--pc-muted)}
+.pc-impulse-schedule strong{font:650 36px/1.3 var(--pc-mono);font-variant-numeric:tabular-nums;color:var(--pc-accent-strong)}
+.pc-impulse-schedule small{font-size:11px;color:var(--pc-muted)}
+.pc-combat-factors{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;padding:12px 0;border-top:1px solid var(--pc-line)}
+.pc-record .pc-metric>span{font-size:11px;text-transform:none;letter-spacing:0}
+.pc-record .pc-metric>strong{font-size:22px}
+.pc-record .pc-chip{font-size:11px;min-height:25px;font-weight:500;text-transform:none;letter-spacing:0}
+.pc-record-columns{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;margin-top:16px}
+.pc-characteristics{order:0}.pc-loadout{order:1}.pc-status{order:2;grid-column:1/-1}
+.pc-stat-row{font-size:13px;padding:8px 0}
+.pc-stat-row strong{font-size:19px}
+.pc-characteristic-row{display:grid;grid-template-columns:minmax(0,1fr) 3ch minmax(0,1fr);gap:12px;align-items:baseline}
+.pc-characteristic-row strong{text-align:right}
+.pc-characteristic-row>span:last-child{text-align:right;font-size:12px}
+.pc-record details{margin-top:14px;font-size:12px}
+.pc-record summary{font-size:12px;font-weight:400;color:var(--pc-muted);letter-spacing:0}
+.pc-record details[open]>summary{margin-bottom:10px}
+.pc-calculation-reference{border-top:1px solid var(--pc-line);padding-top:12px}
+.pc-characteristics>button{margin-top:14px}
+.pc-record .pc-weapons{margin:0}
+.pc-weapon-heading .pc-link{font-size:18px;font-weight:600}
+.pc-weapon-heading p{font-size:11px;margin-top:3px}
+.pc-weapon-stats{gap:32px;margin:12px 0}
+.pc-weapon+.pc-weapon{padding-top:18px;margin-top:18px}
+.pc-record .pc-aim-reference h3{margin-bottom:4px}
+.pc-record table{font-size:12px}
+.pc-record td,.pc-record th{padding:6px 10px}
+.pc-aim-reference table{max-width:560px}
+.pc-ammo-stock{border-top:1px solid var(--pc-line);margin-top:16px;padding-top:4px}
+.pc-ammo-stock .pc-stat-row{max-width:560px}
+.pc-equipment-list li{padding:7px 0;flex-wrap:wrap}
+.pc-equipment-list li>span,.pc-armor-entry p{font-size:12px}
+.pc-equipment-controls{margin-top:16px}
+.pc-record .form-group>label{font-size:13px}
+.pc-record input,.pc-record select{font-size:14px;min-height:32px}
+@container(max-width:760px){
+  .pc-record:not(.pc-item-record){padding:14px}
+  .pc-record-panel{padding:14px}
+  .pc-characteristic-row{grid-template-columns:minmax(0,1fr) 3ch}
+  .pc-characteristic-row>span:last-child{grid-column:1/-1;text-align:left;margin-top:-9px;font-size:11px}
+}
+@container(max-width:480px){
+  .pc-record-columns{grid-template-columns:1fr}
+  .pc-combat-factors{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .pc-characteristic-row{grid-template-columns:minmax(0,1fr) 3ch minmax(0,1fr)}
+  .pc-characteristic-row>span:last-child{grid-column:auto;text-align:right;margin:0}
+  .pc-impulse-schedule strong{font-size:28px}
+}
+
+/* Boolean fields must not inherit text-field padding or Foundry's icon overlay. */
+.pc-record input[type="checkbox"]{
+  appearance:auto;
+  -webkit-appearance:checkbox;
+  flex:0 0 18px;
+  width:18px;
+  height:18px;
+  min-width:18px;
+  min-height:18px;
+  max-width:18px;
+  max-height:18px;
+  padding:0;
+  margin:0;
+  border:0;
+  border-radius:3px;
+  background:transparent;
+  box-shadow:none;
+  accent-color:var(--pc-accent);
+  vertical-align:middle;
+  cursor:pointer;
+}
+.pc-record input[type="checkbox"]::before,
+.pc-record input[type="checkbox"]::after{content:none;display:none}
+.pc-record input[type="checkbox"]:focus-visible{outline:2px solid var(--pc-accent-strong);outline-offset:3px}
+.pc-record input[type="checkbox"]:disabled{cursor:default;opacity:.5}
+.pc-record .form-fields:has(>input[type="checkbox"]){display:flex;align-items:center;min-height:32px}
+.pc-equipment-list .pc-remove-item{margin-left:auto;color:var(--pc-muted);font-size:11px;min-height:28px}
+.pc-equipment-list .pc-remove-item:hover{color:#ef9b90;border-color:var(--pc-danger)}
+
+/* Character generation uses labeled choices, not stretched text-input boxes. */
+.pc-character-generator{gap:14px;font-size:13px;line-height:1.5}
+.pc-character-generator fieldset{margin:0;padding:12px;border:1px solid var(--pc-line);border-radius:5px}
+.pc-character-generator legend{font-size:14px;font-weight:600;color:var(--pc-text)}
+.pc-character-generator label.pc-generation-choice{display:flex;align-items:flex-start;gap:12px;padding:12px;margin:6px 0;border:1px solid var(--pc-line);border-radius:5px;cursor:pointer;letter-spacing:0}
+.pc-character-generator .pc-generation-choice:has(input:checked){border-color:var(--pc-accent);background:var(--pc-bg-2)}
+.pc-generation-choice strong{display:block;font-size:13px;color:var(--pc-text);font-weight:600}
+.pc-generation-choice small{display:block;margin-top:4px;font-size:12px;line-height:1.5;color:var(--pc-muted);font-weight:400}
+.pc-character-generator input[type="radio"]{appearance:auto;-webkit-appearance:radio;flex:0 0 18px;width:18px;height:18px;min-height:18px;max-height:18px;padding:0;margin:2px 0 0;border:0;background:transparent;box-shadow:none;accent-color:var(--pc-accent);cursor:pointer}
+.pc-character-generator input[type="radio"]::before,.pc-character-generator input[type="radio"]::after{content:none;display:none}
+.pc-character-generator input[type="radio"]:focus-visible{outline:2px solid var(--pc-accent-strong);outline-offset:3px}
+.pc-character-generator .pc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(85px,1fr));gap:10px}
+.pc-character-generator .pc-skill-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+.pc-character-generator label{font-size:12px;letter-spacing:0}
+.pc-character-generator .pc-sheet-muted,.pc-character-generator .pc-help{font-size:12px}
+.pc-character-generator:has(input[value="roll"]:checked) .pc-generation-values,
+.pc-character-generator:not(:has(input[value="troop"]:checked)) .pc-generation-troop{display:none}
+
+/* Condition is a summary and two distinct records, rather than a text stack. */
+.pc-condition-layout{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.pc-condition-layout h3{margin:0 0 12px;font-size:13px;color:var(--pc-text)}
+.pc-condition-recovery{padding-left:24px;border-left:1px solid var(--pc-line)}
+.pc-condition-metrics,.pc-recovery-metrics{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.pc-condition-metrics .pc-metric>strong{font-size:30px}
+.pc-disability-summary{margin:12px 0}
+.pc-record .pc-disability-summary h4{font-size:12px;color:var(--pc-muted);font-weight:500;margin:0 0 4px}
+.pc-record .pc-recovery-outcome{font-size:20px;font-weight:600;margin-bottom:14px}
+.pc-recovery-facts{margin:12px 0 16px;display:grid;gap:10px}
+.pc-recovery-facts>div{display:grid;grid-template-columns:110px minmax(0,1fr);gap:12px;font-size:12px}
+.pc-recovery-facts dt{color:var(--pc-muted)}
+.pc-recovery-facts dd{margin:0;overflow-wrap:anywhere}
+.pc-condition-recovery>button{margin-top:12px}
+.pc-movement-note{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 16px;padding-top:14px;margin-top:18px;border-top:1px solid var(--pc-line);font-size:12px}
+.pc-movement-note>span:first-child{color:var(--pc-muted)}
+.pc-movement-note strong{font-weight:500;font-variant-numeric:tabular-nums}
+.pc-condition-edit,.pc-injury-history{padding-top:12px;border-top:1px solid var(--pc-line)}
+@container(max-width:600px){
+  .pc-condition-layout{grid-template-columns:1fr;gap:16px}
+  .pc-condition-recovery{padding:16px 0 0;border-left:0;border-top:1px solid var(--pc-line)}
+}
+.pc-load-gun .pc-new-stock{display:none}
+.pc-load-gun:has(select[name="stock"] option[value="new"]:checked) .pc-new-stock{display:grid;gap:10px;padding:12px;border:1px solid var(--pc-line)}
+.pc-load-gun{font-size:13px}
+.pc-load-gun label{font-size:12px}
+
+/* Keep setup/review actions visible while the long form scrolls internally. */
+.application.dialog.pc-character-setup-dialog{max-height:calc(100dvh - 32px);max-width:calc(100vw - 24px)}
+.pc-character-setup-dialog .window-content{min-height:0;overflow:hidden;display:flex;flex-direction:column}
+.pc-character-setup-dialog .dialog-form{min-height:0;overflow:hidden;display:flex;flex-direction:column;flex:1}
+.pc-character-setup-dialog .dialog-content{min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-gutter:stable;flex:1 1 auto;padding-right:8px}
+.pc-character-setup-dialog .form-footer{flex:0 0 auto;padding-top:12px;border-top:1px solid var(--pc-line,#334238)}
+#token-hud .pc-situation-toggle{width:max-content;min-width:40px;flex:none;padding:6px;display:flex;gap:6px;align-items:center}
+#token-hud .pc-situation-toggle span{font-size:12px}
+#pc-situation-menu{position:fixed;z-index:100;width:260px;max-width:calc(100vw - 16px);max-height:calc(100vh - 16px);overflow:auto;padding:12px;background:#071114;color:#e5f6f2;border:1px solid rgba(111,224,207,.45);border-radius:0;box-shadow:0 18px 48px #000c;font:13px/1.4 var(--pc-font,system-ui,sans-serif)}
+#pc-situation-menu header{display:flex;align-items:center;justify-content:space-between;gap:8px}
+#pc-situation-menu p{font-size:12px;color:#8eacb2;margin:8px 0}
+#pc-situation-menu [role=group]{display:grid;gap:5px}
+#pc-situation-menu button{width:auto;min-height:32px;border:1px solid rgba(111,224,207,.4);background:#0c181c;color:#e5f6f2;border-radius:0;padding:6px 10px;font:13px/1.4 var(--pc-font,system-ui,sans-serif);text-align:left;cursor:pointer}
+#pc-situation-menu button[aria-pressed=true]{background:#6fe0cf;color:#061014;border-color:#6fe0cf}
+#pc-situation-menu button:hover{border-color:#6fe0cf}
+#pc-situation-menu [role=alert]{color:#ef6d62}
+#pc-situation-menu button:focus-visible{outline:2px solid #d5fff6;outline-offset:2px}
+
+/* Rules help overlays the sheet without shifting its content. */
+.pc-record .pc-help-heading{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.pc-record .pc-inline-help{display:inline-block;margin-left:6px;vertical-align:baseline}
+.pc-record .pc-inline-help>button{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;min-height:0;padding:0;border:0;background:transparent;box-shadow:none;color:var(--pc-muted,#aab4bc);font-size:14px;cursor:help}
+.pc-record .pc-inline-help>button:focus-visible{outline:2px solid currentColor;outline-offset:2px}
+.pc-help-tooltip[popover]{position:fixed;inset:auto;margin:0;box-sizing:border-box;width:max-content;max-width:min(320px,calc(100vw - 16px));padding:10px 12px;border:1px solid rgba(111,224,207,.45);border-radius:0;background:#0c181c;color:#e5f6f2;box-shadow:0 12px 32px #000a;font:400 13px/1.5 var(--pc-font,system-ui,sans-serif);white-space:normal;text-transform:none;letter-spacing:normal}
+.pc-help-tooltip::backdrop{background:transparent;pointer-events:none}
+
+.pc-record-header>.pc-portrait-button{width:52px;height:52px;min-height:0;padding:0;overflow:hidden;border:1px solid var(--pc-line);border-radius:var(--pc-radius);background:transparent;cursor:pointer}
+.pc-portrait-button>img{display:block;width:100%;height:100%;object-fit:cover}
+.pc-record-header>.pc-portrait-button:hover,.pc-record-header>.pc-portrait-button:focus-visible{outline:2px solid var(--pc-accent,#d5fff6);outline-offset:2px}
+@media(max-width:640px){.pc-record-header>.pc-portrait-button{width:42px;height:42px}}
+
+/* Equipment as objects: a weapon display and anatomical protection map. */
+.pc-record .pc-firearm-card{position:relative;margin:18px 0;padding:22px;border:1px solid rgba(111,224,207,.32);border-radius:0;background:#081316;box-shadow:none;overflow:hidden}
+.pc-record .pc-firearm-card+.pc-firearm-card{margin-top:20px;padding-top:22px}
+.pc-weapon-overview{display:grid;grid-template-columns:minmax(0,1fr);gap:12px 24px;margin:-22px -22px 20px;padding:24px 24px 12px;color:#e5f6f2;--pc-muted:#8eacb2;--pc-line:rgba(111,224,207,.28);--pc-accent:#6fe0cf;--pc-text:#e5f6f2;background-color:#071418;background-image:linear-gradient(rgba(111,224,207,.09) 1px,transparent 1px),linear-gradient(90deg,rgba(111,224,207,.09) 1px,transparent 1px),radial-gradient(ellipse at 70% 40%,rgba(111,224,207,.08),transparent 55%);background-size:22px 22px,22px 22px,auto;background-repeat:repeat,repeat,no-repeat}
+.pc-weapon-overview.pc-has-art{grid-template-columns:minmax(180px,.85fr) minmax(0,1.5fr)}
+.pc-weapon-art{grid-column:2;grid-row:1;display:flex;align-items:center;justify-content:center;min-width:0;height:150px;align-self:center}
+.pc-record .pc-weapon-overview .pc-weapon-heading{grid-column:1;grid-row:1;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:18px}
+.pc-weapon-overview .pc-weapon-stats{grid-column:1/-1;margin:0;border-bottom:0;gap:28px}
+.pc-record .pc-weapon-overview .pc-link{color:#f2fffb}
+.pc-record .pc-weapon-overview .pc-attack{background:#6fe0cf;color:#061014;border-color:#6fe0cf}
+.pc-record .pc-weapon-overview button[data-action="loadGun"]{background:transparent;border-color:rgba(111,224,207,.5);color:#d5fff6}
+.pc-record .pc-weapon-overview button:hover{filter:brightness(1.08)}
+.pc-record .pc-weapon-overview button:focus-visible{outline:2px solid #6fe0cf;outline-offset:3px}
+.pc-record .pc-weapon-art img{display:block;width:auto;height:auto;max-width:100%;max-height:150px;object-fit:contain;border:0;mix-blend-mode:screen;filter:invert(1) sepia(.45) saturate(5) hue-rotate(135deg) brightness(1.15) contrast(1.05)}
+.pc-record .pc-weapon-heading .pc-weapon-eyebrow{text-transform:uppercase;letter-spacing:.14em;font-size:10px;color:var(--pc-accent);margin:0 0 6px}
+.pc-record .pc-firearm-card .pc-weapon-heading .pc-link{font-size:23px;text-align:left;line-height:1.25}
+.pc-firearm-card .pc-weapon-stats{padding:16px 0;border-top:1px solid var(--pc-line);border-bottom:1px solid var(--pc-line);align-items:center;gap:24px}
+.pc-firearm-card .pc-attack{min-height:42px;padding:10px 18px}
+.pc-armor-map{display:grid;grid-template-columns:minmax(105px, .8fr) minmax(130px,1fr);gap:14px;margin:12px 0 20px;align-items:center}
+.pc-armor-map svg{width:100%;max-height:310px;overflow:visible}
+.pc-body-axis{stroke:var(--pc-line);stroke-dasharray:2 5;opacity:.5}
+.pc-body-part{fill:#102028;stroke:#3d7a78;stroke-width:1.5;stroke-linejoin:round}
+.pc-body-part[data-coverage="covered"]{fill:#14524c;stroke:#6fe0cf}
+.pc-body-part[data-coverage="overlap"],.pc-body-part[data-coverage="unknown"]{fill:#5a4324;stroke:#e4b15a;stroke-dasharray:3 2}
+.pc-body-part[data-coverage="zero"]{fill:#12242a;stroke:#3d7a78}
+.pc-armor-map text{fill:var(--pc-muted);font:10px sans-serif}
+.pc-armor-key .pc-region{display:flex;justify-content:space-between;gap:8px;font-size:11px;padding:3px 0;border-bottom:1px solid #33423866}
+.pc-region strong{font-family:var(--pc-mono);color:var(--pc-muted)}
+.pc-region[data-coverage="covered"] strong{color:var(--pc-accent-strong)}
+.pc-region[data-coverage="overlap"] strong,.pc-region[data-coverage="unknown"] strong{color:var(--pc-warn)}
+@container (max-width:650px){.pc-record .pc-firearm-card{padding:16px}.pc-weapon-overview{margin:-16px -16px 16px;padding:18px 18px 0;gap:12px 16px}.pc-weapon-overview.pc-has-art{grid-template-columns:minmax(150px,.8fr) minmax(0,1.2fr)}.pc-weapon-art{height:120px}.pc-record .pc-weapon-art img{max-height:120px}.pc-firearm-card .pc-weapon-stats{gap:18px}.pc-armor-map{gap:8px}}
+@container (max-width:440px){.pc-weapon-overview.pc-has-art{grid-template-columns:minmax(120px,1fr) minmax(0,1fr)}.pc-record .pc-firearm-card .pc-weapon-heading .pc-link{font-size:19px}.pc-weapon-art{height:100px}.pc-record .pc-weapon-art img{max-height:100px}.pc-weapon-overview .pc-weapon-stats{gap:14px}}
+
+.pc-wound-map{display:grid;grid-template-columns:120px minmax(0,1fr);gap:18px;margin-top:18px}
+.pc-body-diagram{width:100%;max-height:310px}
+.pc-wound-body .pc-rule-note{font-size:10px;text-align:center}
+.pc-wound-map .pc-body-part[data-coverage="wounded"]{fill:#a14e43;stroke:#f2a99b}
+.pc-wound-map .pc-body-part[data-coverage="wound-uncertain"]{fill:#69483f;stroke:#e8aa87;stroke-dasharray:3 2}
+.pc-body-part[role="button"]{cursor:pointer}
+.pc-body-part[role="button"]:hover,.pc-body-part[aria-pressed="true"],.pc-body-part[role="button"]:focus-visible{stroke:#fff;stroke-width:3;outline:none;filter:brightness(1.2)}
+.pc-wound-toolbar{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:12px}
+.pc-wound-toolbar button{font-size:11px;padding:4px 8px;width:auto}
+.pc-wound-list{display:grid;gap:8px;margin-top:12px;max-height:350px;overflow:auto}
+.pc-wound-entry{padding:10px 12px;background:#24292d;border-left:3px solid #ca7d6a;border-radius:3px;font-size:12px}
+.pc-wound-entry[hidden]{display:none}
+.pc-wound-entry>div{display:flex;justify-content:space-between;gap:12px}
+.pc-wound-pd{white-space:nowrap;color:#efb19f;font-family:var(--pc-mono)}
+.pc-wound-entry p,.pc-wound-entry small{color:var(--pc-muted);font-size:11px;margin:4px 0 0}
+.pc-wound-entry details{margin-top:8px}
+.pc-wound-body svg text{fill:var(--pc-muted);font:10px sans-serif}
+.pc-condition-injuries{min-width:0}
+@container(max-width:700px){.pc-wound-map{grid-template-columns:95px minmax(0,1fr);gap:12px}}
+@container(max-width:700px){.pc-condition-layout{grid-template-columns:minmax(0,1fr)}.pc-condition-recovery{border-left:0;border-top:1px solid var(--pc-line);padding:18px 0 0}.pc-wound-toolbar button{white-space:nowrap}}
+
+.pc-coverage-editor{margin:20px 0}
+.pc-coverage-piece{min-width:0;border:1px solid var(--pc-line-strong);border-radius:6px;padding:14px;margin:14px 0;background:var(--pc-bg-1)}
+.pc-coverage-piece legend{padding:0 6px;font-weight:600;color:var(--pc-accent-strong)}
+.pc-coverage-controls{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr) minmax(0,1fr);gap:12px;align-items:start}
+.pc-coverage-controls label{display:flex;flex-direction:column;gap:6px;font-size:12px}
+.pc-coverage-controls .form-group{display:flex;flex-direction:column;align-items:stretch;margin:0;gap:6px}
+.pc-coverage-controls select,.pc-coverage-controls input{width:100%;min-width:0}
+.pc-coverage-piece .pc-remove-coverage{width:auto;margin-top:12px;color:var(--pc-muted);font-size:11px}
+@container(max-width:500px){.pc-coverage-controls{grid-template-columns:1fr}.pc-coverage-controls label{font-size:13px}}
+
+.pc-coverage-actions { display:flex; gap:.65rem; margin-top:1rem; }
+.pc-coverage-piece .pc-remove-coverage { color:var(--color-level-error,#a83232); width:auto; margin-top:.75rem; }
+
+/* Tactical character display. Independent columns prevent loadout height from
+   delaying condition information. Scoped away from Item editors and dialogs. */
+.pc-character-record{
+  --pc-bg-0:#071114;--pc-bg-1:#0c181c;--pc-bg-2:#12242a;--pc-bg-3:#18343c;
+  --pc-line:#1e4248;--pc-line-strong:#3d7a78;--pc-text:#e5f6f2;
+  --pc-muted:#8eacb2;--pc-accent:#6fe0cf;--pc-accent-strong:#d5fff6;--pc-radius:0px;
+}
+.pc-record.pc-character-record{padding:16px;font-size:13px;background:
+  linear-gradient(90deg,rgba(111,224,207,.045) 1px,transparent 1px) 0 0/28px 28px,
+  linear-gradient(rgba(111,224,207,.045) 1px,transparent 1px) 0 0/28px 28px,
+  #071114}
+.pc-character-record .pc-record-header{border-bottom:1px solid rgba(111,224,207,.35);padding-bottom:12px}
+.pc-character-record h1{font-size:27px;font-weight:600;letter-spacing:-.025em}
+.pc-character-record .pc-record-kicker{font:500 10px/1.5 var(--pc-mono);letter-spacing:.18em;color:var(--pc-accent)}
+.pc-character-record .pc-record-kicker span{display:inline;margin-left:10px;font-size:9px}
+.pc-character-record .pc-record-panel{padding:14px;border-radius:0;background:#0c181c;border-color:#1e4248}
+.pc-character-record h2{font:600 11px/1.4 var(--pc-mono,monospace);letter-spacing:.16em;text-transform:uppercase;color:var(--pc-accent);margin-bottom:10px}
+.pc-character-record h3{font-size:11px;font-weight:500;color:var(--pc-muted)}
+.pc-character-record button{border-radius:2px;font-weight:500}
+.pc-character-record .pc-record-tools button{font-size:11px;min-height:28px}
+.pc-character-record .pc-record-columns{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(290px,1fr);gap:14px;margin-top:14px;align-items:start}
+.pc-primary-column,.pc-support-column{display:flex;flex-direction:column;gap:14px;min-width:0}
+.pc-character-record .pc-status,.pc-character-record .pc-loadout,.pc-character-record .pc-characteristics{order:initial}
+.pc-character-record .pc-play{display:grid;grid-template-columns:1fr 1fr;gap:8px 22px;border-top:2px solid var(--pc-accent);margin:0;padding:12px 14px}
+.pc-character-record .pc-combat-heading{grid-column:1/-1}
+.pc-character-record .pc-combat-heading h2{margin:0}
+.pc-character-record .pc-phase-total{font:11px var(--pc-mono);color:var(--pc-accent)}
+.pc-character-record .pc-impulse-schedule{margin:0;border:0;border-radius:0;background:transparent;gap:8px}
+.pc-character-record .pc-impulse-schedule>div{padding:6px 8px;grid-template-columns:1fr auto;align-items:center;gap:0 5px;background:#08161a;border-bottom:2px solid #6fe0cf}
+.pc-character-record .pc-impulse-schedule span{font-size:10px}
+.pc-character-record .pc-impulse-schedule strong{font-size:25px;font-weight:500;grid-column:2;grid-row:1/3}
+.pc-character-record .pc-impulse-schedule small{font-size:9px;justify-self:start}
+.pc-character-record .pc-combat-factors{padding:4px 0 4px 18px;border-top:0;border-left:1px solid var(--pc-line);gap:12px;align-items:center}
+.pc-character-record .pc-metric>span{font-size:10px;letter-spacing:.02em}
+.pc-character-record .pc-metric>strong{font-size:20px;font-weight:500}
+.pc-character-record .pc-play>.pc-telemetry,.pc-character-record .pc-play>.pc-sheet-warning{grid-column:1/-1;margin:0}
+.pc-character-record .pc-chip{border-radius:2px}
+.pc-character-record .pc-stat-row{padding:5px 0;font-size:12px}
+.pc-character-record .pc-stat-row strong{font-size:18px;font-weight:500}
+.pc-character-record .pc-characteristic-row{gap:8px}
+.pc-character-record .pc-characteristic-row>span:last-child{font-size:10px}
+.pc-character-record .pc-firearm-card{margin:12px 0;padding:0 0 8px;border-radius:0;box-shadow:none;background:#081316;border-color:rgba(111,224,207,.32)}
+.pc-character-record .pc-weapon-overview.pc-has-art{grid-template-columns:minmax(120px,.75fr) minmax(0,1.25fr)}
+.pc-character-record .pc-weapon-art{height:115px}
+.pc-character-record .pc-weapon-art img{max-height:115px}
+.pc-character-record .pc-firearm-card .pc-weapon-heading .pc-link{font-size:22px;font-weight:600}
+.pc-character-record .pc-weapon-overview .pc-weapon-heading{gap:12px}
+.pc-character-record .pc-firearm-card .pc-attack{min-height:32px;padding:7px 12px;background:#6fe0cf;border-color:#6fe0cf;color:#061014}
+.pc-character-record .pc-weapon-stats{gap:12px 20px;padding:10px 0}
+.pc-character-record .pc-weapon-stats .pc-metric>strong{font-size:15px}
+.pc-character-record .pc-weapon-stats .pc-metric>span{font-size:9px}
+.pc-character-record .pc-aim-reference table{font-size:11px}
+.pc-character-record .pc-aim-reference td,.pc-character-record .pc-aim-reference th{padding:5px 6px;text-align:center}
+.pc-character-record .pc-aim-reference td:first-child,.pc-character-record .pc-aim-reference th:first-child{text-align:left}
+.pc-character-record .pc-rule-note{font-size:11px;margin:6px 0}
+.pc-character-record details{margin-top:10px}
+.pc-character-record summary{font-size:11px}
+.pc-character-record .pc-armor-map{grid-template-columns:95px minmax(0,1fr);gap:14px;margin:0 0 8px;align-items:start}
+.pc-character-record .pc-armor-map svg{height:175px}
+.pc-character-record .pc-armor-key>.pc-sheet-muted{font-size:10px;margin-bottom:6px}
+.pc-character-record .pc-armor-key .pc-region{font-size:11px;padding:5px 0}
+.pc-character-record .pc-body-part{fill:#202c33;stroke:#6a7e87;stroke-width:1}
+.pc-character-record .pc-body-part[data-coverage=covered]{fill:#637b45;stroke:#c7e68b}
+.pc-character-record .pc-body-part[data-coverage=overlap],.pc-character-record .pc-body-part[data-coverage=unknown]{fill:#695233;stroke:#e4b86c;stroke-dasharray:3 2}
+.pc-character-record .pc-body-part[data-coverage=zero]{fill:#354747;stroke:#75a9a0}
+.pc-character-record .pc-armor-profiles{border-block:1px solid var(--pc-line);padding:8px 0}
+.pc-character-record .pc-equipment-list li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:0 8px;padding:7px 0}
+.pc-character-record .pc-equipment-list li>.pc-link{font-size:12px;min-height:22px}
+.pc-character-record .pc-equipment-list li>span{grid-column:1;font-size:10px;white-space:normal}
+.pc-character-record .pc-equipment-list .pc-remove-item{grid-column:2;grid-row:1/3;font-size:10px;padding:3px 5px}
+.pc-character-record .pc-weight .pc-metric{flex-direction:row;align-items:baseline;justify-content:space-between}
+.pc-character-record .pc-condition-layout{grid-template-columns:1fr;gap:14px}
+.pc-character-record .pc-condition-recovery{border-left:0;border-top:1px solid var(--pc-line);padding:12px 0 0}
+.pc-character-record .pc-wound-map{grid-template-columns:82px minmax(0,1fr);gap:12px;margin-top:10px}
+.pc-character-record .pc-wound-body svg{max-height:150px}
+.pc-character-record .pc-condition-metrics{gap:22px}
+.pc-character-record .pc-condition-layout h3{font-size:11px;margin-bottom:8px}
+@container(max-width:780px){
+ .pc-character-record .pc-record-columns{grid-template-columns:minmax(0,1fr)}
+ .pc-character-record .pc-play{grid-template-columns:1fr}
+ .pc-character-record .pc-combat-factors{border-left:0;border-top:1px solid var(--pc-line);padding:10px 0 0;grid-template-columns:repeat(4,minmax(0,1fr))}
+ .pc-character-record .pc-characteristic-row{grid-template-columns:minmax(0,1fr) 3ch minmax(0,1fr)}
+ .pc-character-record .pc-characteristic-row>span:last-child{grid-column:auto;text-align:right;margin:0}
+}
+@container(max-width:440px){
+ .pc-character-record .pc-record-kicker span{display:block;margin:0}
+ .pc-character-record .pc-record-header{flex-wrap:wrap}
+ .pc-character-record .pc-record-tools{max-width:none}
+ .pc-character-record .pc-combat-factors,.pc-character-record .pc-hand-factors{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .pc-character-record .pc-hand-factors .pc-metric>strong{white-space:normal}
+}
+.pc-character-record .pc-wounds-empty{grid-template-columns:45px minmax(0,1fr);align-items:center;padding:8px 0}
+.pc-character-record .pc-wounds-empty .pc-wound-body svg{height:68px}
+.pc-character-record .pc-wounds-empty .pc-wound-body .pc-rule-note,
+.pc-character-record .pc-wounds-empty .pc-wound-detail>.pc-sheet-muted,
+.pc-character-record .pc-wounds-empty [data-wound-all]{display:none}
+.pc-character-record .pc-wounds-empty .pc-wound-list{margin-top:3px}
+.pc-ammo-stock .pc-stat-row{display:flex;align-items:center;gap:10px}
+.pc-ammo-stock .pc-stat-row>.pc-link{flex:1}
+.pc-ammo-stock .pc-remove-item{font-size:10px;color:var(--pc-muted)}
+
+.pc-burst-picker{position:fixed;z-index:100;left:16px;top:80px;width:340px;max-width:calc(100vw - 32px);max-height:calc(100vh - 110px);overflow:auto;box-sizing:border-box;padding:16px;background:#071114f5;color:#e5f6f2;border:1px solid rgba(111,224,207,.45);box-shadow:0 18px 48px #000c;font:13px/1.45 var(--pc-font,system-ui,sans-serif)}
+.pc-burst-picker header{display:grid;gap:4px}.pc-burst-picker header strong{font-size:17px;color:#f2fffb}.pc-burst-picker header span,.pc-burst-picker small{font-size:11px;color:#8eacb2}
+.pc-burst-picker label{display:grid;gap:5px;color:#8eacb2}.pc-burst-picker select,.pc-burst-picker button{font:inherit;color:#e5f6f2;background:#0c181c;border:1px solid rgba(111,224,207,.4);border-radius:0;padding:6px 8px;min-height:32px}
+.pc-burst-picker [data-status]{padding:10px;border-left:3px solid #e4b15a;background:#12242a}.pc-burst-picker [data-status][data-valid=true]{border-color:#6fe0cf}
+.pc-burst-picker [data-actions]{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}.pc-burst-picker [data-confirm]{background:#6fe0cf;color:#061014;border-color:#6fe0cf;font-weight:700}.pc-burst-picker button:disabled{opacity:.45;cursor:not-allowed}.pc-burst-picker :focus-visible{outline:2px solid #d5fff6;outline-offset:2px}
+body.pc-selecting-arc #pc-token-actions{visibility:hidden}
+
+.pc-fire-queue{display:grid;gap:8px;padding:10px;border:1px solid rgba(111,224,207,.32);background:#071114;color:#e5f6f2}
+.pc-fire-queue article{display:grid;gap:6px;padding:8px;background:#0c181c;border-left:3px solid #6fe0cf}
+.pc-fire-queue label{display:grid;grid-template-columns:76px minmax(0,1fr);align-items:center;gap:6px;font-size:12px;color:#8eacb2}
+.pc-fire-queue select{width:100%;min-width:0;background:#071114;border:1px solid rgba(111,224,207,.4);border-radius:0;color:#e5f6f2}
+.pc-fire-queue details label{margin-top:6px}
+.pc-fire-queue [data-queue-resolve]{background:#6fe0cf;color:#061014;font-weight:700;border-color:#6fe0cf}
+.pc-queue-reactions>div { display:flex; align-items:center; gap:6px; }
+.pc-queue-reactions>div>span:first-child { flex:1; }
+.pc-queue-reactions button { flex:0 0 auto; width:auto; }
+/* Defender's full-parry allocation, beside Hold and Duck. */
+.pc-parry-choice{border:1px solid rgba(111,224,207,.4);border-radius:0;padding:6px 10px;margin:6px 0;min-width:0;background:#0c181c}
+.pc-parry-choice legend{padding:0 4px;font-size:11px;color:var(--pc-accent,#6fe0cf)}
+.pc-parry-choice label{display:flex;align-items:center;gap:6px;margin:2px 0;font-size:12px;color:var(--pc-text,#e6ebe7)}
+.pc-parry-choice input{flex:none;margin:0}
+/* Action bar: status first, then this moment's decisions, then the fixed verb row. */
+#pc-token-actions .pc-bar-status{margin:6px 0 8px;font-size:13px;line-height:1.45;color:var(--pc-text,#e6ebe7)}
+#pc-token-actions .pc-bar-decisions{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 8px}
+#pc-token-actions .pc-bar-decisions button[data-primary]{background:var(--pc-accent,#6fe0cf);border-color:var(--pc-accent,#6fe0cf);color:#061014;font-weight:700}
+#pc-token-actions .pc-bar-decisions button[data-primary] .pc-keyhint{color:#061014;border-color:#061014}
+#pc-token-actions .pc-bar-verbs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+#pc-token-actions .pc-bar-verbs button{justify-content:space-between;min-width:0}
+#pc-token-actions .pc-bar-verbs button[aria-expanded="true"]{border-color:var(--pc-accent,#6fe0cf);background:var(--pc-bg-3,#202c25)}
+#pc-token-actions .pc-bar-verbs button:disabled .pc-keyhint{opacity:.6}
+#pc-token-actions .pc-bar-menu{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 0;padding:8px;border:1px solid rgba(111,224,207,.28);border-radius:0;background:var(--pc-bg-0,#071114)}
+#pc-token-actions .pc-bar-note{margin:8px 0 0;color:var(--pc-muted,#93a097);font-size:12px;line-height:1.4}
+#pc-token-actions .pc-bar-loadout{margin:8px 0 0;font:11px/1.35 var(--pc-mono,monospace);color:var(--pc-muted,#93a097)}
+#pc-token-actions .pc-keyhint{margin:0 0 0 6px}
+@media(max-width:520px){#pc-token-actions .pc-bar-verbs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* GM impulse panel: top of the column beside the sidebar, so it moves as the sidebar expands. */
+#pc-gm-impulse{position:relative;flex:none;align-self:flex-end;pointer-events:auto;z-index:65;width:min(340px,calc(100vw - 140px));max-height:60%;display:flex;flex-direction:column;border:1px solid rgba(111,224,207,.45);border-radius:0;background:color-mix(in srgb,var(--pc-bg-1,#0c181c) 96%,transparent);box-shadow:0 18px 48px #000c;color:var(--pc-text,#e5f6f2);font:13px/1.4 var(--pc-font,system-ui,sans-serif)}
+#pc-gm-impulse.pc-floating{position:fixed;top:12px;right:60px;max-height:calc(100vh - 24px)}
+#pc-gm-impulse header{display:flex;align-items:baseline;gap:8px;padding:8px 10px;border-bottom:1px solid var(--pc-line,#334238)}
+#pc-gm-impulse header strong{white-space:nowrap}
+#pc-gm-impulse header span{flex:1;min-width:0;color:var(--pc-muted,#93a097);font-size:12px}
+#pc-gm-impulse [data-collapse]{flex:none;width:26px;height:26px;padding:0;border:0;background:transparent;color:var(--pc-muted,#93a097);cursor:pointer}
+#pc-gm-impulse .pc-gm-body{overflow:auto;border-top:0;background:transparent}
+#pc-gm-impulse .pc-gm-body[hidden]{display:none!important}
+#pc-gm-impulse .pc-impulse-footer p,#pc-gm-impulse .pc-gm-body p{font-size:12px;text-align:left}
+#pc-gm-impulse .pc-gm-body details{font-size:12px}
+#pc-gm-impulse .pc-gm-body summary{font-size:11px;text-transform:none}
+#pc-gm-impulse .pc-blockers ul,.pc-impulse-footer .pc-blockers ul{margin:4px 0 0;padding:0;list-style:none;display:grid;gap:4px}
+#pc-gm-impulse .pc-blockers li,.pc-impulse-footer .pc-blockers li{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.pc-blockers li button{width:auto;flex:0 0 auto;min-height:24px;padding:2px 8px;font-size:11px}
+/* Resolved-attack card: a readable account, then the calculation as a compact list. */
+.chat-message .phoenix-command .pc-result-summary{display:grid;gap:3px;font-size:12px;line-height:1.4;color:var(--pc-text,#e6ebe7)}
+.chat-message .phoenix-command details.pc-trace{font-size:11px;color:var(--pc-muted,#93a097)}
+.chat-message .phoenix-command details.pc-trace summary{cursor:pointer;font-size:11px;color:var(--pc-muted,#93a097)}
+.chat-message .phoenix-command .pc-trace-rolls{margin:4px 0 2px;font:11px/1.35 var(--pc-mono,monospace);color:var(--pc-text,#e6ebe7)}
+.chat-message .phoenix-command .pc-trace-list{display:grid;margin:2px 0 0}
+.chat-message .phoenix-command .pc-trace-list>div{display:flex;justify-content:space-between;gap:8px;padding:2px 0;border-bottom:1px solid rgba(255,255,255,.06)}
+.chat-message .phoenix-command .pc-trace-list dt{margin:0;font-weight:400;color:var(--pc-muted,#93a097)}
+.chat-message .phoenix-command .pc-trace-list dd{margin:0;text-align:right;font-family:var(--pc-mono,monospace);color:var(--pc-text,#e6ebe7)}
+.chat-message .phoenix-command .pc-trace-list>div[data-key] dt,.chat-message .phoenix-command .pc-trace-list>div[data-key] dd{color:var(--pc-accent-strong,#d5fff6);font-weight:600}
+.chat-message .phoenix-command .pc-trace-source{margin-top:4px;font-size:10px;color:var(--pc-faint,#7a8791)}
+/* Game-settings titles stay on one line. A normal wrap splits the section citation onto its own line. */
+[data-category="phoenix-command"] .form-group > label{white-space:nowrap}
+
+/* HUD frame. Corner ticks and a phosphor readout, shared by the character
+   window, setup dialogs, encounter rows, and chat cards. */
+.pc-character-record .pc-record-panel,
+.combat-tracker .pc-impulse-entry,
+.chat-message .phoenix-command{
+  background-image:
+    linear-gradient(#6fe0cf,#6fe0cf),linear-gradient(#6fe0cf,#6fe0cf),
+    linear-gradient(#6fe0cf,#6fe0cf),linear-gradient(#6fe0cf,#6fe0cf),
+    linear-gradient(#6fe0cf,#6fe0cf),linear-gradient(#6fe0cf,#6fe0cf),
+    linear-gradient(#6fe0cf,#6fe0cf),linear-gradient(#6fe0cf,#6fe0cf);
+  background-repeat:no-repeat;
+  background-size:12px 2px,2px 12px,12px 2px,2px 12px,12px 2px,2px 12px,12px 2px,2px 12px;
+  background-position:left top,left top,right top,right top,left bottom,left bottom,right bottom,right bottom;
+}
+.pc-character-record .pc-record-panel{background-color:#0c181c;border-color:rgba(111,224,207,.28)}
+.pc-character-record h1{color:#f2fffb;letter-spacing:.01em}
+.pc-character-record .pc-record-kicker{color:#6fe0cf}
+.pc-character-record .pc-impulse-schedule strong,
+.pc-character-record .pc-metric>strong,
+.pc-character-record .pc-stat-row strong{color:#d5fff6;text-shadow:0 0 12px rgba(111,224,207,.22)}
+.pc-character-record .pc-phase-total{color:#6fe0cf}
+.pc-character-record .pc-hand-factors{grid-column:1/-1;grid-template-columns:repeat(5,minmax(0,1fr));border-left:0;border-top:1px solid rgba(111,224,207,.22);padding:12px 0 0;margin-top:4px}
+.pc-character-record .pc-hand-factors .pc-metric>strong{font-size:16px;white-space:nowrap}
+.pc-character-record .pc-chip,
+.pc-impulse-entry .pc-chip,
+.chat-message .pc-chip{border-radius:0;letter-spacing:.08em;text-transform:uppercase;font-family:var(--pc-mono,monospace)}
+.pc-character-record .pc-record-header>.pc-portrait-button,
+.pc-character-record .pc-record-header>img{border-radius:0;border-color:rgba(111,224,207,.55)}
+.pc-character-record .pc-record-footer{letter-spacing:.2em;text-transform:uppercase;color:#5d787e}
+
+/* Weapon viewport: the photograph sits on a ranging grid, not a paper card. */
+.pc-character-record .pc-weapon-overview{
+  --pc-muted:#8eacb2;--pc-line:rgba(111,224,207,.28);--pc-accent:#6fe0cf;--pc-text:#e5f6f2;
+  margin:0 0 12px;padding:16px 16px 12px;color:#e5f6f2;
+  background-color:#071418;
+  background-image:
+    linear-gradient(rgba(111,224,207,.09) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(111,224,207,.09) 1px,transparent 1px),
+    radial-gradient(ellipse at 70% 40%,rgba(111,224,207,.08),transparent 55%);
+  background-size:22px 22px,22px 22px,auto;
+  background-repeat:repeat,repeat,no-repeat;
+}
+.pc-character-record .pc-weapon-overview .pc-link{color:#f2fffb}
+.pc-character-record .pc-weapon-overview .pc-weapon-eyebrow{color:#6fe0cf}
+.pc-character-record .pc-firearm-card .pc-weapon-heading .pc-link{text-shadow:0 0 14px rgba(111,224,207,.2)}
+.pc-character-record .pc-weapon-art img{
+  mix-blend-mode:screen;
+  filter:invert(1) sepia(.45) saturate(5) hue-rotate(135deg) brightness(1.15) contrast(1.05);
+}
+.pc-character-record .pc-weapon-overview .pc-attack,
+.pc-character-record .pc-firearm-card .pc-attack{background:#6fe0cf;border-color:#6fe0cf;color:#061014}
+.pc-character-record .pc-weapon-overview button[data-action="loadGun"]{background:transparent;border-color:rgba(111,224,207,.5);color:#d5fff6}
+.pc-character-record .pc-weapon-overview button:hover{filter:brightness(1.08)}
+.pc-character-record .pc-firearm-card>.pc-aim-reference,
+.pc-character-record .pc-firearm-card>details{margin:0 14px 8px}
+.pc-character-record .pc-armor-map svg,
+.pc-character-record .pc-wound-body{
+  background-color:#071418;
+  background-image:
+    linear-gradient(rgba(111,224,207,.08) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(111,224,207,.08) 1px,transparent 1px);
+  background-size:16px 16px;
+}
+.pc-character-record .pc-body-part{fill:#102028;stroke:#3d7a78}
+.pc-character-record .pc-body-part[data-coverage=covered]{fill:#14524c;stroke:#6fe0cf}
+.pc-character-record .pc-body-part[data-coverage=overlap],
+.pc-character-record .pc-body-part[data-coverage=unknown]{fill:#5a4324;stroke:#e4b15a}
+.pc-character-record .pc-wound-map .pc-body-part[data-coverage=wounded]{fill:#6e2e2a;stroke:#ef6d62}
+.pc-character-record button.pc-save,
+.pc-character-record button.pc-attack{background:#6fe0cf;border-color:#6fe0cf;color:#061014}
+
+/* Character and tactical dialogs. */
+.pc-character-setup-dialog,
+.application:has(.pc-dialog){
+  border:1px solid rgba(111,224,207,.45);
+  box-shadow:0 18px 48px #000c;
+}
+.phoenix-record-sheet{border:1px solid rgba(111,224,207,.4);box-shadow:0 18px 48px #000a}
+.pc-character-setup-dialog .window-header,
+.application:has(.pc-dialog) .window-header,
+.phoenix-record-sheet .window-header{
+  background:#0c181c;
+  border-bottom:1px solid rgba(111,224,207,.35);
+  color:#9fd9d0;
+}
+.pc-character-setup-dialog .window-title,
+.application:has(.pc-dialog) .window-title,
+.phoenix-record-sheet .window-title{
+  font-family:var(--pc-mono,monospace);
+  font-size:11px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+.pc-character-setup-dialog .window-content,
+.application:has(.pc-dialog) .window-content{background:#071114;color:#e5f6f2}
+.pc-dialog,.pc-character-generator{color:#e5f6f2}
+.pc-character-generator fieldset{
+  border:1px solid rgba(111,224,207,.28);
+  border-radius:0;
+  background:#0c181c;
+}
+.pc-dialog .pc-record-kicker{font-family:var(--pc-mono,monospace);letter-spacing:.16em}
+.pc-character-generator legend{font:600 11px/1.3 var(--pc-mono,monospace);letter-spacing:.12em;text-transform:uppercase;color:#6fe0cf}
+.pc-character-generator label.pc-generation-choice{border-radius:0;background:#08161a}
+.pc-character-generator .pc-generation-choice:has(input:checked){
+  border-color:#e4b15a;
+  background:rgba(228,177,90,.08);
+  box-shadow:0 0 0 1px #e4b15a,0 0 16px rgba(228,177,90,.2);
+}
+.pc-dialog input,.pc-dialog select,.pc-character-generator input,.pc-character-generator select{
+  border-radius:0;background:#071114;border-color:rgba(111,224,207,.4);color:#e5f6f2;
+}
+.pc-dialog input:focus,.pc-dialog select:focus,.pc-character-generator input:focus,.pc-character-generator select:focus{
+  border-color:#6fe0cf;outline:1px solid #6fe0cf;
+}
+.application:has(.pc-dialog) .form-footer,
+.pc-character-setup-dialog .form-footer{border-top-color:rgba(111,224,207,.28)}
+.application:has(.pc-dialog) .form-footer button,
+.pc-character-setup-dialog .form-footer button{
+  border:1px solid rgba(111,224,207,.45);
+  border-radius:0;
+  background:transparent;
+  color:#d5fff6;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  font-size:11px;
+}
+.application:has(.pc-dialog) .form-footer button[data-button="ok"],
+.application:has(.pc-dialog) .form-footer button[data-button="yes"],
+.pc-character-setup-dialog .form-footer button[data-button="ok"],
+.pc-character-setup-dialog .form-footer button[data-button="yes"]{
+  background:#6fe0cf;border-color:#6fe0cf;color:#061014;font-weight:700;
+}
+
+/* Encounter row: one framed readout per combatant. */
+.combat-tracker .pc-impulse-entry{
+  margin:4px 2px 6px;padding:8px 10px 10px;
+  border:1px solid rgba(111,224,207,.32);
+  background-color:#071114;
+  box-shadow:inset 0 0 18px rgba(111,224,207,.05);
+}
+.combat-tracker .pc-action-value{color:#d5fff6;font-size:26px;text-shadow:0 0 10px rgba(111,224,207,.45)}
+.combat-tracker .pc-progress{height:4px;background:#12242a}
+.combat-tracker .pc-progress>span{background:#6fe0cf;box-shadow:0 0 8px #6fe0cf}
+.combat-tracker .pc-next-step{color:#e5f6f2;font-size:12px}
+.combat-tracker .pc-timing-actions button[data-primary=true]{background:#6fe0cf;border-color:#6fe0cf;color:#061014}
+.combat-tracker .pc-impulse-footer{background:#0c181c;border-top-color:rgba(111,224,207,.28)}
+.combat-tracker .pc-impulse-footer>button[data-timing=advance],
+.combat-tracker .pc-impulse-footer>button[data-timing=start]{background:#6fe0cf;border-color:#6fe0cf;color:#061014}
+
+/* Chat card: the same frame as a result instrument. */
+.chat-message .phoenix-command{
+  gap:8px;padding:10px 12px 12px;
+  border:1px solid rgba(111,224,207,.32);
+  border-inline-start:1px solid rgba(111,224,207,.32);
+  background-color:#071114;
+  box-shadow:inset 0 0 20px rgba(111,224,207,.04);
+}
+.chat-message .phoenix-command h2{
+  padding-bottom:6px;
+  border-bottom:1px solid rgba(111,224,207,.28);
+  color:#d5fff6;
+  font:600 13px/1.3 var(--pc-mono,monospace);
+  letter-spacing:.04em;
+  text-transform:uppercase;
+  text-shadow:0 0 12px rgba(111,224,207,.3);
+}
+.chat-message .phoenix-command .pc-result-summary p{padding:3px 0;border-bottom:1px solid rgba(111,224,207,.12)}
+.chat-message .pc-card-actions button[type=button]{background:#6fe0cf;border-color:#6fe0cf;color:#061014;border-radius:0}
+
+/* Tactical overlays: corner ticks on every floating HUD surface. */
+#pc-token-actions,
+#pc-gm-impulse,
+.pc-burst-picker,
+.pc-fire-queue,
+#pc-situation-menu,
+.pc-arc-hud,
+.pc-dialog.pc-order-card,
+.pc-map-move,
+.pc-hex-picker,
+.pc-dialog.pc-weapon-order{
+  background-image:
+    linear-gradient(#6fe0cf,#6fe0cf),linear-gradient(#6fe0cf,#6fe0cf),
+    linear-gradient(#6fe0cf,#6fe0cf),linear-gradient(#6fe0cf,#6fe0cf),
+    linear-gradient(#6fe0cf,#6fe0cf),linear-gradient(#6fe0cf,#6fe0cf),
+    linear-gradient(#6fe0cf,#6fe0cf),linear-gradient(#6fe0cf,#6fe0cf);
+  background-repeat:no-repeat;
+  background-size:12px 2px,2px 12px,12px 2px,2px 12px,12px 2px,2px 12px,12px 2px,2px 12px;
+  background-position:left top,left top,right top,right top,left bottom,left bottom,right bottom,right bottom;
+}
+#pc-gm-impulse header{border-bottom-color:rgba(111,224,207,.28)}
+#pc-gm-impulse .pc-impulse-footer{border-top-color:rgba(111,224,207,.28)}
+#pc-gm-impulse .pc-impulse-footer>button[data-timing=advance],
+#pc-gm-impulse .pc-impulse-footer>button[data-timing=start]{background:#6fe0cf;border-color:#6fe0cf;color:#061014}
+.pc-dialog.pc-order-card{background:#071114;color:#e5f6f2;border-color:rgba(111,224,207,.45);border-radius:0}
+.pc-dialog.pc-order-card .pc-order-commit{background:#6fe0cf;border-color:#6fe0cf;color:#061014;border-radius:0}
+.pc-dialog.pc-order-card .pc-aim-strip button,
+.pc-dialog.pc-order-card .pc-attack-buttons button{border-radius:0}
+.pc-dialog.pc-weapon-order{background:#071114;border:1px solid rgba(111,224,207,.45);border-radius:0;color:#e5f6f2}
+.pc-dialog.pc-weapon-order [data-preview]{border-left-color:#6fe0cf;background:#0c181c;border-radius:0}
+.pc-dialog.pc-weapon-order select{border-radius:0;background:#0c181c;border-color:rgba(111,224,207,.4)}
+
+@container(max-width:780px){
+  .pc-character-record .pc-hand-factors{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .pc-character-record .pc-hand-factors .pc-metric>strong{white-space:normal;font-size:15px}
+}

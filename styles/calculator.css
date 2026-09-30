@@ -1,0 +1,243 @@
+@import url("./sheets.css");
+
+:where(.phoenix-command,.phoenix-record-sheet,.pc-dialog,.pc-weapon-picker,.pc-picker-intro,.pc-calculator,.pc-record,#pc-token-actions,.pc-map-move){
+  --pc-bg-0:#071114;
+  --pc-bg-1:#0c181c;
+  --pc-bg-2:#12242a;
+  --pc-bg-3:#18343c;
+  --pc-line:#1e4248;
+  --pc-line-strong:#3d7a78;
+  --pc-text:#e5f6f2;
+  --pc-muted:#8eacb2;
+  --pc-faint:#5d787e;
+  --pc-accent:#6fe0cf;
+  --pc-accent-strong:#d5fff6;
+  --pc-warn:#e4b15a;
+  --pc-danger:#ef6d62;
+  --pc-info:#7ec8e3;
+  --pc-radius:0px;
+  --pc-gap-1:4px;
+  --pc-gap-2:8px;
+  --pc-gap-3:12px;
+  --pc-gap-4:16px;
+  --pc-font:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --pc-mono:"SFMono-Regular",Consolas,"Liberation Mono",monospace;
+  color-scheme:dark;
+}
+
+.phoenix-command .window-content{padding:0;overflow:auto;background:var(--pc-bg-0)}
+.pc-calculator{
+  box-sizing:border-box;
+  max-width:780px;
+  min-height:100%;
+  margin:auto;
+  padding:18px;
+  background:var(--pc-bg-0);
+  color:var(--pc-text);
+  font:13px/1.4 var(--pc-font);
+}
+.pc-calculator *{box-sizing:border-box}
+.pc-calculator h1,.pc-calculator h2,.pc-calculator p{border:0;color:inherit;text-shadow:none}
+.pc-calculator h1{margin:0 0 4px;font-size:23px;letter-spacing:-.02em}
+.pc-calculator h2{margin:0 0 6px;color:var(--pc-accent-strong);font-size:18px}
+.pc-calculator p{margin:0 0 10px}
+.pc-eyebrow,.pc-record-kicker{
+  color:var(--pc-accent)!important;
+  font:700 9px/1.2 var(--pc-mono);
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+.pc-muted{color:var(--pc-muted);font-size:11px}
+.pc-notice{
+  margin:12px 0;
+  padding:9px 10px;
+  border:1px solid var(--pc-line);
+  border-inline-start:3px solid var(--pc-warn);
+  background:var(--pc-bg-2);
+  color:var(--pc-muted);
+  font-size:11px;
+}
+.pc-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.pc-calculator label{display:grid;gap:4px;min-width:0;color:var(--pc-muted);font-size:10px;font-weight:650;letter-spacing:.03em}
+.pc-calculator input,.pc-calculator select{
+  width:100%;
+  height:34px;
+  padding:5px 8px;
+  border:1px solid var(--pc-line-strong);
+  border-radius:var(--pc-radius);
+  background:var(--pc-bg-1);
+  color:var(--pc-text);
+  font:13px var(--pc-font);
+}
+.pc-calculator fieldset{margin:14px 0;padding:12px;border:1px solid var(--pc-line);border-radius:var(--pc-radius);background:var(--pc-bg-1)}
+.pc-calculator legend{padding:0 6px;color:var(--pc-text);font-weight:700}
+.pc-actions{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0}
+.pc-calculator button{
+  flex:1;
+  min-height:32px;
+  padding:5px 10px;
+  border:1px solid var(--pc-line-strong);
+  border-radius:var(--pc-radius);
+  background:var(--pc-bg-2);
+  color:var(--pc-text);
+  cursor:pointer;
+  font:650 11px var(--pc-font);
+}
+.pc-calculator button.pc-primary{border-color:var(--pc-accent);background:var(--pc-accent);color:#11170f}
+.pc-calculator button:hover{border-color:var(--pc-accent)}
+.pc-calculator :focus-visible{outline:2px solid var(--pc-accent-strong);outline-offset:2px}
+.pc-calculator label.pc-confirm{display:flex;align-items:center;gap:8px;margin-top:12px}
+.pc-confirm input{width:16px;height:16px;flex-shrink:0}
+.pc-error{color:#f1a097;white-space:pre-wrap}
+.pc-result{margin-top:10px;padding:14px;border:1px solid var(--pc-line);border-radius:var(--pc-radius);background:var(--pc-bg-2)}
+.pc-calculator summary{padding:6px 0;color:var(--pc-accent);cursor:pointer}
+.pc-calculator dl{display:grid;grid-template-columns:1fr auto;gap:4px 10px;font-size:11px}
+.pc-calculator dd{margin:0;font-family:var(--pc-mono);font-variant-numeric:tabular-nums}
+
+@media(max-width:440px){
+  .pc-calculator{padding:12px}
+  .pc-grid{grid-template-columns:1fr}
+  .pc-actions button{flex-basis:100%}
+}
+
+@media(prefers-reduced-motion:reduce){
+  :where(.pc-calculator,.pc-record,.pc-dialog) *{scroll-behavior:auto!important;transition:none!important;animation:none!important}
+}
+
+/* Contextual orders: same phosphor HUD as the rest of the system. */
+.pc-dialog.pc-weapon-order{
+  color:var(--pc-text);background:var(--pc-bg-0);padding:16px;
+  font:14px/1.5 var(--pc-font);border-radius:0;
+}
+.pc-dialog.pc-weapon-order details{background:transparent;border:0;border-bottom:1px solid var(--pc-line);padding:8px 0;margin:0 0 8px}
+.pc-dialog.pc-weapon-order summary{color:var(--pc-text);font:600 13px/1.5 var(--pc-font);padding:4px 0;letter-spacing:0}
+.pc-dialog.pc-weapon-order label{font-size:13px;color:var(--pc-muted)}
+.pc-dialog.pc-weapon-order select{font-size:13px;min-height:38px;background:var(--pc-bg-1);color:var(--pc-text)}
+.pc-dialog.pc-weapon-order [data-preview]{font:500 13px/1.5 var(--pc-font);background:var(--pc-bg-1);color:var(--pc-text);border-left:2px solid var(--pc-accent);padding:10px;margin:16px 0}
+.pc-dialog.pc-weapon-order .pc-help{font-size:12px;color:var(--pc-muted)}
+.pc-dialog.pc-weapon-order [data-range]:empty{display:none}
+.pc-dialog.pc-weapon-order :focus-visible{outline:2px solid var(--pc-accent);outline-offset:3px}
+
+.pc-map-move{position:fixed;z-index:10000;left:80px;right:auto;top:auto;bottom:24px;height:auto;min-height:0;align-content:start;width:340px;max-width:calc(100vw - 32px);max-height:calc(100vh - 48px);overflow:auto;box-sizing:border-box;border:1px solid rgba(111,224,207,.45);border-radius:0;box-shadow:0 18px 48px #000c}
+.pc-map-move-actions{display:flex;gap:8px;position:sticky;bottom:-16px;background:var(--pc-bg-0);padding:12px 0}
+.pc-map-move-actions button{flex:1;min-height:38px;color:var(--pc-text);background:var(--pc-bg-1);border:1px solid rgba(111,224,207,.4);border-radius:0;font:600 13px var(--pc-font);cursor:pointer}
+.pc-map-move-actions [data-commit-move]:enabled{background:var(--pc-accent);color:#061014;border-color:var(--pc-accent)}
+.pc-map-move-actions button:disabled{opacity:.5;cursor:default}
+.pc-map-move label:has(input[type=checkbox]){display:flex;align-items:center;gap:8px}
+.pc-map-move input[type=checkbox]{min-height:0;flex:none}
+@media(max-width:600px){.pc-map-move{left:16px;bottom:16px;width:calc(100vw - 32px);max-height:60vh}}
+
+.pc-impulse-workflow{border-left:3px solid var(--pc-accent);padding:8px 12px;margin:8px 0}
+.pc-impulse-workflow p{margin:4px 0}
+.pc-impulse-footer button[hidden]{display:none!important}
+.pc-activity-timer{display:grid;gap:6px;padding:10px 0}
+.pc-activity-timer progress{width:100%;height:8px;accent-color:var(--pc-accent,#6fe0cf)}
+.pc-activity-timer span{font-size:12px;color:var(--pc-muted,#93a097)}
+.pc-impulse-entry .pc-combat-readout[hidden]{display:none}
+
+/* Order card: docked over the token action bar; context first, one row of decisions. */
+.pc-dialog.pc-order-card{position:fixed;z-index:80;bottom:100px;left:50%;transform:translateX(-50%);width:min(460px,calc(100vw - 32px));max-height:calc(100vh - 140px);overflow:auto;box-sizing:border-box;margin:0;border:1px solid rgba(111,224,207,.45);border-radius:0;box-shadow:0 18px 48px #000c;background:var(--pc-bg-0)}
+.pc-order-card header{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.pc-order-card header strong{font:650 16px/1.3 var(--pc-font);color:var(--pc-text)}
+.pc-order-card [data-close]{flex:none;width:28px;height:28px;padding:0;border:0;background:transparent;color:var(--pc-muted);font-size:18px;line-height:1;cursor:pointer}
+.pc-order-card .pc-order-facts{margin:2px 0 8px;color:var(--pc-muted);font:12px/1.4 var(--pc-mono)}
+.pc-order-card .pc-order-facts:empty{display:none}
+.pc-order-chips{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}
+.pc-order-chips:empty{display:none}
+.pc-order-chip{width:auto;min-height:26px;padding:2px 10px;border:1px solid var(--pc-line-strong);border-radius:999px;background:var(--pc-bg-1);color:var(--pc-text);font:600 12px var(--pc-font);cursor:pointer}
+.pc-order-choose{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:0 0 10px}
+.pc-order-choose:not(:has(label:not([hidden]))){display:none}
+.pc-order-card [hidden]{display:none!important}
+.pc-dialog.pc-order-card .pc-order-choose label{display:flex;flex-direction:column;gap:4px;min-width:0;margin:0}
+.pc-order-card .pc-order-blocker{margin:0 0 10px;padding:8px 10px;border-left:2px solid var(--pc-warn,#d4a354);background:var(--pc-bg-1);color:var(--pc-text);font-size:13px}
+.pc-aim-strip,.pc-attack-buttons{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:6px;margin:0 0 10px}
+.pc-attack-buttons{grid-template-columns:repeat(auto-fit,minmax(88px,1fr))}
+.pc-aim-strip:empty,.pc-attack-buttons:empty{display:none}
+.pc-aim-strip button,.pc-attack-buttons button,.pc-order-commit{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:100%;min-height:52px;height:auto;padding:6px 4px;border:1px solid rgba(111,224,207,.4);border-radius:0;background:var(--pc-bg-1);color:var(--pc-text);font:13px/1.3 var(--pc-font);cursor:pointer}
+.pc-attack-buttons button,.pc-order-commit{min-height:40px;font-weight:650}
+.pc-order-commit{margin:0 0 10px;border-color:var(--pc-accent);background:var(--pc-accent);color:#061014}
+.pc-aim-strip button:hover,.pc-attack-buttons button:enabled:hover{border-color:var(--pc-accent);background:var(--pc-bg-2)}
+.pc-aim-strip button strong{font-size:14px}
+.pc-aim-strip button span{font-size:12px;color:var(--pc-muted)}
+.pc-aim-strip .pc-aim-mod{font:11px var(--pc-mono)}
+.pc-attack-buttons button:disabled,.pc-order-commit:disabled{opacity:.45;cursor:default}
+.pc-stroke-chips{display:flex;gap:6px;margin:0 0 10px}
+.pc-stroke-chips label{flex:1;margin:0}
+.pc-stroke-chips input{position:absolute;opacity:0;pointer-events:none}
+.pc-stroke-chips span{display:block;padding:6px 8px;border:1px solid var(--pc-line-strong);border-radius:999px;text-align:center;font-size:12px;color:var(--pc-muted);cursor:pointer}
+.pc-stroke-chips input:checked+span{border-color:var(--pc-accent);color:var(--pc-text);background:var(--pc-bg-2)}
+.pc-stroke-chips input:focus-visible+span{outline:2px solid var(--pc-accent);outline-offset:2px}
+.pc-stroke-chips input:disabled+span{opacity:.45;cursor:default}
+.pc-dialog.pc-order-card details.pc-order-more{border:0;margin:0;padding:0}
+.pc-dialog.pc-order-card details.pc-order-more summary{font-size:12px;color:var(--pc-muted)}
+@media(max-width:600px){.pc-dialog.pc-order-card{bottom:16px}.pc-order-choose{grid-template-columns:1fr}}
+.pc-order-card .pc-aim-caption{margin:0 0 4px;font-size:11px;color:var(--pc-muted)}
+
+/* Catalogue picker: searchable list beside the highlighted weapon's card.
+   The footer stays in the window; the list and card take the space above it. */
+.pc-weapon-picker-dialog .window-content{flex:1;min-height:0;overflow:hidden;display:flex;flex-direction:column}
+.pc-weapon-picker-dialog .dialog-form{min-height:0;overflow:hidden;display:flex;flex-direction:column;flex:1}
+.pc-weapon-picker-dialog .dialog-content{display:flex;flex-direction:column;gap:8px;min-height:0;overflow:hidden;flex:1 1 auto}
+.pc-weapon-picker-dialog .form-footer{flex:0 0 auto;padding-top:12px}
+.pc-picker-intro{margin:0;font:13px/1.45 var(--pc-font);color:var(--pc-muted)}
+.pc-weapon-picker{display:grid;grid-template-columns:minmax(220px,300px) minmax(0,1fr);gap:16px;flex:1;min-height:0;height:auto;color:var(--pc-text);font:13px/1.45 var(--pc-font)}
+.pc-picker-list{display:flex;flex-direction:column;gap:8px;min-height:0}
+.pc-picker-list input[type=search]{min-height:34px;padding:4px 10px;border:1px solid var(--pc-line-strong);border-radius:var(--pc-radius);background:var(--pc-bg-1);color:var(--pc-text);font:13px var(--pc-font)}
+.pc-picker-options{flex:1;min-height:0;overflow:auto;border:1px solid var(--pc-line);border-radius:var(--pc-radius);background:var(--pc-bg-1)}
+.pc-picker-options:focus-visible{outline:2px solid var(--pc-accent);outline-offset:1px}
+.pc-picker-options [hidden]{display:none!important}
+.pc-picker-group{position:sticky;top:0;z-index:1;margin:0;padding:6px 10px;background:var(--pc-bg-2);color:var(--pc-muted);font:600 11px/1.3 var(--pc-font);letter-spacing:.04em;text-transform:uppercase}
+.pc-picker-options [role=option]{display:flex;flex-direction:column;gap:1px;padding:6px 10px 6px 8px;border-left:2px solid transparent;cursor:pointer}
+.pc-picker-options [role=option]:hover{background:var(--pc-bg-2)}
+.pc-picker-options [role=option][aria-selected=true]{background:var(--pc-bg-3);border-left-color:var(--pc-accent)}
+.pc-picker-options [role=option] strong{font-weight:600;color:var(--pc-text)}
+.pc-picker-options [role=option] span{font:11px/1.35 var(--pc-mono);color:var(--pc-muted)}
+.pc-weapon-card{min-height:0;overflow:auto;padding:4px 4px 12px 0}
+.pc-weapon-card header h3{margin:0 0 8px;font:600 20px/1.2 var(--pc-font);color:var(--pc-text);border:0}
+.pc-card-kicker{margin:0 0 2px;color:var(--pc-muted);font:600 11px/1.3 var(--pc-font);letter-spacing:.04em;text-transform:uppercase}
+.pc-card-image{margin:0 0 12px;padding:16px;min-height:132px;border-radius:0;display:flex;align-items:center;justify-content:center;background-color:#071418;background-image:linear-gradient(rgba(111,224,207,.09) 1px,transparent 1px),linear-gradient(90deg,rgba(111,224,207,.09) 1px,transparent 1px),radial-gradient(ellipse at 70% 40%,rgba(111,224,207,.08),transparent 55%);background-size:22px 22px,22px 22px,auto;background-repeat:repeat,repeat,no-repeat}
+/* Foundry frames every image in a window (`body.game .app img`). The sheet
+   already clears that; this selector has to win here too, or the gun sits in a box. */
+body.game .app .pc-card-image,
+.pc-card-image{border:none;box-shadow:none;outline:none}
+body.game .app .pc-card-image img,
+.pc-card-image img{max-width:100%;max-height:150px;object-fit:contain;border:none;border-radius:0;box-shadow:none;outline:none;mix-blend-mode:screen;filter:invert(1) sepia(.45) saturate(5) hue-rotate(135deg) brightness(1.15) contrast(1.05)}
+.pc-card-description{margin:0 0 12px;color:var(--pc-text)}
+.pc-card-stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px 16px;margin:0 0 14px}
+.pc-card-stats div{min-width:0}
+.pc-card-stats dt{color:var(--pc-muted);font-size:11px}
+.pc-card-stats dd{margin:0;font:600 14px/1.3 var(--pc-font);color:var(--pc-text)}
+.pc-weapon-card section{margin:0 0 14px}
+.pc-weapon-card h4{margin:0 0 4px;font:600 13px/1.3 var(--pc-font);color:var(--pc-text);border:0}
+.pc-weapon-card .pc-help{margin:0 0 6px;font-size:12px;color:var(--pc-muted)}
+.pc-card-scroll{overflow-x:auto}
+.pc-card-table{border-collapse:collapse;font:12px/1.3 var(--pc-mono);color:var(--pc-text);margin:0;width:auto;background:transparent;border:0}
+.pc-card-table tr{background:transparent!important}
+.pc-card-table th,.pc-card-table td{padding:4px 8px;border:0;border-bottom:1px solid var(--pc-line);text-align:center;white-space:nowrap}
+.pc-card-table th[scope=row]{text-align:left;font:600 12px/1.3 var(--pc-font);color:var(--pc-text)}
+.pc-card-table th[scope=col]{color:var(--pc-muted);font-weight:600}
+.pc-card-table small{display:block;color:var(--pc-muted);font-size:11px}
+.pc-card-source{padding-top:8px;border-top:1px solid var(--pc-line);color:var(--pc-muted);font-size:11px}
+@media(max-width:700px){.pc-weapon-picker{grid-template-columns:1fr;grid-template-rows:200px minmax(0,1fr);height:auto}}
+/* Armor card: the body figure beside what each covered part stops. */
+.pc-armor-card-body{display:grid;grid-template-columns:120px minmax(0,1fr);gap:16px;align-items:start}
+.pc-armor-card-body .pc-body-diagram{width:120px;height:auto}
+.pc-armor-protection{margin:0 0 10px;padding:8px 10px;border-left:2px solid var(--pc-line-strong);background:var(--pc-bg-1)}
+.pc-armor-protection p{margin:2px 0 0}
+@media(max-width:700px){.pc-armor-card-body{grid-template-columns:80px minmax(0,1fr)}.pc-armor-card-body .pc-body-diagram{width:80px}}
+/* Route planning: the summary line, the map's colour key and the per-hex list. */
+.pc-map-move .pc-route-headline{margin:6px 0;padding:8px 10px;border-left:2px solid var(--pc-accent);background:var(--pc-bg-1);font:600 13px/1.4 var(--pc-font);color:var(--pc-text)}
+.pc-map-move .pc-route-headline[data-invalid=true]{border-left-color:var(--pc-warn);font-weight:500}
+.pc-map-move .pc-route-legend{display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px;margin:0 0 6px;font-size:11px;color:var(--pc-muted)}
+.pc-map-move .pc-route-legend span{display:inline-block;width:10px;height:10px;margin-right:-6px;border-radius:2px}
+.pc-map-move [data-tone=now]{--tone:#6fe0cf}.pc-map-move [data-tone=next]{--tone:#e4b15a}.pc-map-move [data-tone=later]{--tone:#5d787e}
+.pc-map-move .pc-route-legend span{background:var(--tone)}
+.pc-map-move .pc-route-hexes{margin:4px 0;padding-left:22px;font:12px/1.5 var(--pc-mono);color:var(--pc-text)}
+.pc-map-move .pc-route-hexes li::marker{color:var(--tone)}
+.pc-weapon-card .pc-picker-extra{margin:4px 0 14px;padding:10px;border:1px solid var(--pc-line);border-radius:var(--pc-radius);background:var(--pc-bg-1)}
+.pc-weapon-card .pc-picker-extra label{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--pc-text)}
+.pc-weapon-card .pc-picker-extra input{width:80px;min-height:30px;background:var(--pc-bg-0);color:var(--pc-text);border:1px solid var(--pc-line-strong);border-radius:var(--pc-radius)}
+/* One-click hex picker (Pin a hex). */
+.pc-hex-picker{position:fixed;z-index:10000;left:80px;bottom:24px;width:300px;padding:12px 14px;display:grid;gap:6px;border:1px solid rgba(111,224,207,.45);border-left:3px solid var(--pc-warn,#e4b15a);border-radius:0;background:var(--pc-bg-0,#071114);color:var(--pc-text,#e5f6f2);font:13px/1.4 var(--pc-font,system-ui);box-shadow:0 18px 48px #000c}
+.pc-hex-picker p{margin:0;color:var(--pc-muted,#8eacb2)}
+.pc-hex-picker button{justify-self:start;min-height:30px;padding:0 14px;background:var(--pc-bg-1,#0c181c);color:var(--pc-text,#e5f6f2);border:1px solid rgba(111,224,207,.4);border-radius:0}
