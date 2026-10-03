@@ -2,7 +2,7 @@ import {visibleEncounterTarget} from '../rules/target-eligibility.mjs';
 import {weaponActivity} from '../rules/weapon-timing.mjs';
 import {equippedModes,supportsOrder,compatibleAmmunition,preferredMode,weaponOrderKinds,isMeleeOrder,needsTarget} from './weapon-order-options.mjs';
 import {resolveWeaponOrderContext,previewWeaponOrder} from './weapon-order-context.mjs';
-import {aimChoices,aimedKinds,commitLabels,fieldPresentation} from './order-card-model.mjs';
+import {aimChoices,aimedKinds,commitLabels,fieldPresentation,presentAimChoices,offHandAgilitySkillFactor} from './order-card-model.mjs';
 import {escapeHTML as e,selectedAttackContext} from '../foundry/context.mjs';
 import {observedHitChance} from '../rules/hit-estimate.mjs';
 import {observedShotScene} from '../foundry/hit-estimate-scene.mjs';
@@ -12,6 +12,15 @@ import {movedThisPhase} from '../rules/timing.mjs';
 import {bearingBetween} from '../foundry/hex-move.mjs';
 
 const strokes=[[0,'Short','half damage'],[1,'Normal',''],[2,'Long','double damage']];
+function aimButton(c,shortcut){
+  const odds=c.chance!=null?`~${c.chance}%`:`${c.modifier>0?'+':''}${c.modifier}`;
+  const when=c.finishes==='now'?'now':c.finishes;
+  const actions=`${c.aimActions} action${c.aimActions===1?'':'s'}`;
+  const headline=c.role==='rest'?String(c.aimActions):c.label;
+  const detail=c.role==='rest'?when:`${when} · ${actions}`;
+  const spoken=`${headline}, fires ${when==='now'?'this impulse':when}, ${actions}, ${c.chance!=null?`about ${c.chance}% to hit`:`modifier ${c.modifier}`}`;
+  return `<button type="button" data-aim-actions="${c.aimActions}" aria-label="${e(spoken)}" title="Aim modifier ${e(String(c.modifier))}" ${shortcut?`aria-keyshortcuts="${shortcut}"`:''}><strong>${e(headline)}</strong><span>${e(detail)}</span><span class="pc-aim-mod">${e(odds)}</span></button>`;
+}
 let cancelActive=null;
 
 // The order card docks above the token action bar. Anything the context settles is shown
@@ -42,12 +51,12 @@ export async function selectWeaponActivity(combat,state,id,selection={}){
       <label data-field="targetUuid">Target<select name="targetUuid"><option value="">Choose…</option>${options(targets.map(c=>[c.token.uuid,c.name]))}</select></label>
     </div>
     <p class="pc-order-blocker" data-blocker role="alert"></p>
-    <p class="pc-aim-caption" data-aim-caption>Aim actions · fires · aim modifier</p><div class="pc-aim-strip" data-aim role="group" aria-label="Aim actions"></div>
+    <p class="pc-aim-caption" data-aim-caption>When it fires</p><div class="pc-aim-strip pc-aim-featured" data-aim role="group" aria-label="When it fires"></div>
+    <details class="pc-aim-rest" data-aim-rest hidden><summary>Other aim times</summary><div class="pc-aim-strip" data-aim-more role="group" aria-label="Other aim times"></div></details>
     <div data-strike hidden>
       <div class="pc-stroke-chips" role="radiogroup" aria-label="Sets before the blow">${strokes.map(([sets,label,note])=>`<label><input type="radio" name="sets" value="${sets}" ${sets===1?'checked':''}><span>${label}${note?` · ${note}`:''}</span></label>`).join('')}</div>
-      <label data-continue-cut hidden class="pc-custom-toggle"><input type="checkbox" name="continueCut"> Continue the chainsaw's cut (§5.7)</label>
-      <label data-asf hidden>Agility Skill Factor · off-hand blow<input name="agilitySkillFactor" type="number" min="0" step="1" value=""></label>
       <div class="pc-attack-buttons" data-attacks role="group" aria-label="Attack"></div>
+      <details class="pc-order-more" data-special hidden><summary>This weapon</summary><label data-continue-cut class="pc-custom-toggle"><input type="checkbox" name="continueCut"> Continue the cut</label></details>
     </div>
     <button type="button" class="pc-order-commit" data-commit hidden></button>
     <details class="pc-order-more"><summary>Timing</summary><label class="pc-custom-toggle"><input type="checkbox" name="continuous" checked> Keep investing actions each impulse until done</label></details>`;
@@ -65,8 +74,8 @@ export async function selectWeaponActivity(combat,state,id,selection={}){
     const k=chosen==='threeRound'?'shot':chosen;
     return {kind:k,...(chosen==='threeRound'?{threeRoundBurst:true}:{}),weaponId:row?.weapon.id,modeId:row?.modeId,ammunitionId:isMeleeOrder(k)?null:find('ammunitionId').value||null,
       ...(k==='strike'?{sets:Number(root.querySelector('[name=sets]:checked')?.value??1),
-        continueCut:find('continueCut').checked&&!root.querySelector('[data-continue-cut]').hidden?true:undefined,
-        agilitySkillFactor:find('agilitySkillFactor').value!==''&&!root.querySelector('[data-asf]').hidden?Number(find('agilitySkillFactor').value):undefined}:{}),
+        continueCut:find('continueCut').checked&&!root.querySelector('[data-special]').hidden?true:undefined,
+        ...(row?.weapon.system.heldIn==='off'?{agilitySkillFactor:offHandAgilitySkillFactor(snapshot.system)}:{})}:{}),
       targetUuid:needsTarget(k)&&k!=='burst'?find('targetUuid').value||null:null,...extra};
   }
   function fillModes(useSelection=false){
@@ -140,6 +149,7 @@ export async function selectWeaponActivity(combat,state,id,selection={}){
     root.querySelector('[data-strike]').hidden=!strike;
     const aim=root.querySelector('[data-aim]'),blocker=root.querySelector('[data-blocker]'),commitButton=root.querySelector('[data-commit]');
     aim.hidden=!aimedKinds.includes(k);root.querySelector('[data-aim-caption]').hidden=aim.hidden;
+    if(!aimedKinds.includes(k))root.querySelector('[data-aim-rest]').hidden=true;
     commitButton.hidden=!commitLabels[k];
     blocker.textContent='';
     let base=null;
@@ -165,26 +175,34 @@ export async function selectWeaponActivity(combat,state,id,selection={}){
       for(const c of fits)c.chance=seen?observedHitChance({weapon:row.weapon,modeId:row.modeId,ammunitionKey:ammo?.system.ammunitionKey,
         skill:snapshot.system.skills?.gun,aimActions:c.aimActions,distance,...seen}):null;
       const estimated=fits.some(c=>c.chance!=null);
-      root.querySelector('[data-aim-caption]').textContent=`${turn?`Turn to face · ${turn.cost} action${turn.cost===1?'':'s'}, then aim`:'Aim actions'} · fires · ${estimated?'your estimate to hit':'aim modifier'}`;
+      root.querySelector('[data-aim-caption]').textContent=`${turn?`Turn to face · ${turn.cost} action${turn.cost===1?'':'s'}, then aim`:'When it fires'} · ${estimated?'your estimate to hit':'aim modifier'}`;
       if(base&&!fits.length&&choices.length)blocker.textContent=choices[0].blocked;
-      aim.innerHTML=fits.map((c,i)=>`<button type="button" data-aim-actions="${c.aimActions}" aria-label="${c.aimActions} aim action${c.aimActions===1?'':'s'}, fires ${c.finishes==='now'?'this impulse':e(c.finishes)}, ${c.chance!=null?`about ${c.chance}% to hit`:`modifier ${e(String(c.modifier))}`}" title="Aim modifier ${e(String(c.modifier))}" aria-keyshortcuts="${i+1}"><strong>${c.aimActions}</strong><span>${c.finishes==='now'?'now':e(c.finishes)}</span><span class="pc-aim-mod">${c.chance!=null?`~${c.chance}%`:`${c.modifier>0?'+':''}${e(String(c.modifier))}`}</span></button>`).join('');
+      const shown=presentAimChoices(fits);
+      const button=(c,shortcut)=>aimButton(c,shortcut);
+      aim.innerHTML=shown.featured.map((c,i)=>button(c,i<9?String(i+1):'')).join('');
+      const rest=root.querySelector('[data-aim-rest]'),more=root.querySelector('[data-aim-more]');
+      rest.hidden=!shown.rest.length;
+      rest.querySelector('summary').textContent=shown.rest.length===1?'Other aim time':`Other aim times · ${shown.rest.length}`;
+      more.innerHTML=shown.rest.map(c=>button(c,'')).join('');
       if(base&&fits.length&&!turn){
         // Other rule checks (range, facing, target) apply to every aim time alike.
         try{previewWeaponOrder(snapshot,state,id,{...base,aimActions:fits[0].aimActions},combat);}
-        catch(error){blocker.textContent=error.message;aim.innerHTML='';}
+        catch(error){blocker.textContent=error.message;aim.innerHTML='';more.innerHTML='';rest.hidden=true;}
       }
     }
     if(strike&&row){
       const attacks=Object.entries(row.mode.attacks??{});
       const traits=row.mode.attacks?.[selection.attackId]?.traits??[];
       const cut=row.weapon.flags?.['phoenix-command']?.chainsawCut;
-      root.querySelector('[data-continue-cut]').hidden=!attacks.some(([,a])=>a.traits?.includes('chainsaw'))||!(cut?.cuttingPower>0);
-      root.querySelector('[data-asf]').hidden=row.weapon.system.heldIn!=='off';
-      const noSets=traits.includes('charge')||(find('continueCut').checked&&!root.querySelector('[data-continue-cut]').hidden);
+      const special=attacks.some(([,a])=>a.traits?.includes('chainsaw'))&&cut?.cuttingPower>0;
+      root.querySelector('[data-special]').hidden=!special;
+      const noSets=traits.includes('charge')||(find('continueCut').checked&&special);
       root.querySelectorAll('[name=sets]').forEach(input=>{input.disabled=noSets;if(noSets)input.checked=input.value==='0';});
+      const offHand=row.weapon.system.heldIn==='off'?offHandAgilitySkillFactor(snapshot.system):undefined;
       root.querySelector('[data-attacks]').innerHTML=base?attacks.map(([attackId,a],i)=>{
         let blocked=null;
-        try{const r=request({attackId});if(a.traits?.includes('charge'))r.sets=0;weaponActivity(snapshot,r);previewWeaponOrder(snapshot,state,id,r,combat);}catch(error){blocked=error.message;}
+        if(row.weapon.system.heldIn==='off'&&offHand==null)blocked='Off-hand blows need Agility and a Hand-to-Hand skill on the sheet.';
+        else try{const r=request({attackId});if(a.traits?.includes('charge'))r.sets=0;weaponActivity(snapshot,r);previewWeaponOrder(snapshot,state,id,r,combat);}catch(error){blocked=error.message;}
         return `<button type="button" data-attack-id="${e(attackId)}" aria-keyshortcuts="${i+1}" ${blocked?`disabled title="${e(blocked)}"`:''}>${e(attackId[0].toUpperCase()+attackId.slice(1))}</button>`;
       }).join(''):'';
       const all=[...root.querySelectorAll('[data-attack-id]')];
@@ -226,7 +244,7 @@ export async function selectWeaponActivity(combat,state,id,selection={}){
     if(event.key==='Escape'){event.preventDefault();event.stopPropagation();cancel();return;}
     if(['INPUT','SELECT','TEXTAREA'].includes(event.target?.tagName)||event.ctrlKey||event.metaKey||event.altKey)return;
     const index=Number(event.key)-1;
-    const buttons=[...root.querySelectorAll('[data-aim-actions],[data-attack-id]:not(:disabled)')].filter(b=>!b.closest('[hidden]'));
+    const buttons=[...root.querySelectorAll('[data-aim-actions],[data-attack-id]:not(:disabled)')].filter(b=>!b.closest('[hidden]')&&(!b.closest('details')||b.closest('details').open));
     if(index>=0&&index<buttons.length){event.preventDefault();event.stopPropagation();buttons[index].click();}
   };
   const hooks=[];

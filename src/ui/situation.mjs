@@ -11,9 +11,9 @@ export function situationUpdate(value){
 export async function editSituation(actor){
   if(!actor?.isOwner)throw new Error('You must own this character.');
   const active=()=>game.combats.some(c=>c.started&&c.combatants.some(b=>b.actor?.uuid===actor.uuid));
-  const value=await foundry.applications.api.DialogV2.prompt({window:{title:`Situation · ${actor.name}`},content:`<div class="pc-dialog"><p>Situation & stance · Table 4B. Braced means the weapon is supported; use it only when that support is available.</p><label>Shooter situation<select name="situation">${situationChoices.map(v=>`<option ${v===situationLabel(actor.system.condition)?'selected':''} value="${e(v)}">${e(v)}</option>`).join('')}</select></label>${active()?'<p>During combat, players change posture using Posture & reload. A GM may record an adjudicated situation here.</p>':''}</div>`,ok:{label:'Set situation',callback:(_e,_b,d)=>d.element.querySelector('[name=situation]').value},rejectClose:false});
+  const value=await foundry.applications.api.DialogV2.prompt({window:{title:`Situation · ${actor.name}`},content:`<div class="pc-dialog"><p>Situation & stance · Table 4B. Braced means the weapon is supported; use it only when that support is available.</p><label>Shooter situation<select name="situation">${situationChoices.map(v=>`<option ${v===situationLabel(actor.system.condition)?'selected':''} value="${e(v)}">${e(v)}</option>`).join('')}</select></label>${active()?'<p>During combat, players change posture with Posture on the action bar. A GM may record an adjudicated situation here.</p>':''}</div>`,ok:{label:'Set situation',callback:(_e,_b,d)=>d.element.querySelector('[name=situation]').value},rejectClose:false});
   if(!value)return false;
-  if(active()&&!game.user.isGM)throw new Error('During combat, use Posture & reload for a timed posture change; ask the GM to confirm bracing.');
+  if(active()&&!game.user.isGM)throw new Error('During combat, use Posture on the action bar for a timed posture change; ask the GM to confirm bracing.');
   await actor.update(situationUpdate(value));return true;
 }
 export function registerSituationHUD(){
@@ -43,7 +43,7 @@ export function registerSituationHUD(){
       const panel=document.createElement('section');panel.id='pc-situation-menu';panel.setAttribute('aria-label','Shooter situation');
       const current=situationLabel(actor.system.condition);
       const active=game.combats.some(c=>c.started&&c.combatants.some(b=>b.actor?.uuid===actor.uuid));
-      panel.innerHTML=`<header><strong>${e(actor.name)} · Situation</strong><button type="button" data-close aria-label="Close situation choices">×</button></header><p>Situation & stance · Table 4B</p><div role="group" aria-label="Choose situation">${situationChoices.map(value=>`<button type="button" data-value="${e(value)}" aria-pressed="${value===current}">${e(value)}${value===current?' ✓':''}</button>`).join('')}</div><p>${active?'Combat: players use Posture & reload for timed changes. GM selections here are adjudicated changes.':'Select a situation to save it to this character. Braced requires available weapon support.'}</p><p role="alert"></p>`;
+      panel.innerHTML=`<header><strong>${e(actor.name)} · Situation</strong><button type="button" data-close aria-label="Close situation choices">×</button></header><p>Situation & stance · Table 4B</p><div role="group" aria-label="Choose situation">${situationChoices.map(value=>`<button type="button" data-value="${e(value)}" aria-pressed="${value===current}">${e(value)}${value===current?' ✓':''}</button>`).join('')}</div><p>${active?'Combat: players use Posture on the action bar for timed changes. GM selections here are adjudicated changes.':'Select a situation to save it to this character. Braced requires available weapon support.'}</p><p role="alert"></p>`;
       document.body.append(panel);
       const bounds=button.getBoundingClientRect();
       panel.style.left=`${Math.max(8,Math.min(bounds.right+10,innerWidth-panel.offsetWidth-8))}px`;
@@ -55,7 +55,7 @@ export function registerSituationHUD(){
         panel.querySelectorAll('button').forEach(el=>el.disabled=true);
         try{
           if(!actor.isOwner)throw new Error('You must own this character.');
-          if(!game.user.isGM&&game.combats.some(c=>c.started&&c.combatants.some(b=>b.actor?.uuid===actor.uuid)))throw new Error('Use Posture & reload to change posture during combat; ask the GM to confirm bracing.');
+          if(!game.user.isGM&&game.combats.some(c=>c.started&&c.combatants.some(b=>b.actor?.uuid===actor.uuid)))throw new Error('Use Posture on the action bar to change posture during combat; ask the GM to confirm bracing.');
           await actor.update(situationUpdate(choice.dataset.value));
           clear();await hud.render({force:true});
         }catch(error){panel.querySelector('[role=alert]').textContent=error.message;panel.querySelectorAll('button').forEach(el=>el.disabled=false);}

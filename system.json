@@ -11,14 +11,14 @@
   "license": "LICENSE",
   "readme": "README.md",
   "bugs": "https://github.com/mbutler/foundryvtt-phoenix-command/issues",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "compatibility": {
     "minimum": "14",
     "maximum": "14",
     "verified": "14.368"
   },
   "manifest": "https://github.com/mbutler/foundryvtt-phoenix-command/releases/latest/download/system.json",
-  "download": "https://github.com/mbutler/foundryvtt-phoenix-command/releases/download/v0.2.0/phoenix-command.zip",
+  "download": "https://github.com/mbutler/foundryvtt-phoenix-command/releases/download/v0.2.1/phoenix-command.zip",
   "grid": {
     "type": 2,
     "distance": 6,

@@ -18,10 +18,8 @@
 // long - and short slashes; the stab restriction has lifted by then. Only the first two bands
 // limit how long a stab may be set for.
 //
-// THE AGILITY SKILL FACTOR IS STATED, NOT DERIVED. §1.2 Step 6 of the melee book makes it the
-// Agility Characteristic plus Combat Effectiveness, and neither that chain nor Table 2D is
-// implemented here - the system derives LEG10200's §1.3 instead. So it is asked for, like the
-// damage bonus and for the same reason.
+// The factor is Agility plus Combat Effectiveness (§1.2 Step 6). The order card derives it
+// from the sheet and passes the number; this module only applies the printed limits.
 //
 // The page says the limits apply to "offensive blows (and Offensive Weapon Parries) with the
 // Off-Hand". Offensive Weapon Parries are a separate rule this system does not implement, so

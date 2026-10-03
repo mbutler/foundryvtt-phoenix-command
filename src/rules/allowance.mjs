@@ -150,6 +150,17 @@ export function combatEffectiveness(handToHandSkill) {
     : { table: '2C', skill: handToHandSkill });
 }
 
+// LEG10204 §1.2 Step 6 (PDF 8): ASF = AGI + CE. Combat Actions need Maximum Speed as well;
+// an off-hand blow needs only this.
+export function agilitySkillFactor({ agility, handToHandSkill }) {
+  const ce = combatEffectiveness(handToHandSkill);
+  if (!ce.resolved) return ce;
+  const missing = unknownInput([['Agility', agility]]);
+  if (missing) return missing;
+  if (!requireInteger(agility, 'Agility', 0, 99)) throw new RangeError('Agility must be a whole number.');
+  return resolved(agility + ce.value, { formula: 'ASF = AGI + CE', agility, combatEffectiveness: ce.value });
+}
+
 // LEG10204 §1.2 Steps 6-7 (PDF 8): ASF = AGI + CE; Combat Actions and Damage Bonus are read on
 // Table 2D against Maximum Speed and ASF; Table 2E (= Table 1E) spreads the actions by impulse.
 // Table 2D prints MS 1-11 only, so a faster man has no printed Damage Bonus.
@@ -158,17 +169,15 @@ export function deriveHandToHand({ agility, handToHandSkill, maximumSpeed, asfRo
   const ce = combatEffectiveness(handToHandSkill);
   if (!ce.resolved) return ce;
   steps.combatEffectiveness = ce;
-  const missing = unknownInput([['Agility', agility]]);
-  if (missing) return missing;
-  if (!requireInteger(agility, 'Agility', 0, 99)) throw new RangeError('Agility must be a whole number.');
-  const asf = agility + ce.value;
-  steps.agilitySkillFactor = resolved(asf, { formula: 'ASF = AGI + CE', agility, combatEffectiveness: ce.value });
-  const combatActions = lookupCombatActions({ maximumSpeed, factor: asf, factorName: 'ASF', table: '2D', columns: asfColumns, rounding: asfRounding, maxSpeed: 11 });
+  const asf = agilitySkillFactor({ agility, handToHandSkill });
+  if (!asf.resolved) return asf;
+  steps.agilitySkillFactor = asf;
+  const combatActions = lookupCombatActions({ maximumSpeed, factor: asf.value, factorName: 'ASF', table: '2D', columns: asfColumns, rounding: asfRounding, maxSpeed: 11 });
   if (!combatActions.resolved) return combatActions;
   steps.combatActions = combatActions;
   const bonus = damageBonusTable[maximumSpeed][asfColumns.indexOf(combatActions.trace.column)];
   steps.damageBonus = resolved(bonus, { table: '2D', maximumSpeed, asf: combatActions.trace.column });
-  return { resolved: true, combatEffectiveness: ce.value, agilitySkillFactor: asf, combatActions: combatActions.value,
+  return { resolved: true, combatEffectiveness: ce.value, agilitySkillFactor: asf.value, combatActions: combatActions.value,
     damageBonus: bonus, schedule: [...actionSchedule(combatActions.value)],
     provenance: { source: 'derived', rules: 'LEG10204 §1.2 Steps 5-7, PDF 7-8; Tables 2C-2E, PDF 44', table: handToHandTableSource, steps } };
 }
