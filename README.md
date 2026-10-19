@@ -16,12 +16,9 @@ https://github.com/mbutler/foundryvtt-phoenix-command/releases/latest/download/s
 
 Foundry downloads the matching release and installs it as `phoenix-command`. Later releases are offered as updates from that same URL.
 
-## At the table
+For a quickstart guide on how to use Phoenix Command on Foundry, read the [guide](https://github.com/mbutler/foundryvtt-phoenix-command/blob/master/guide.md)
 
-- A hex map at **6 feet per hex** for small-arms combat.
-- A token for each combatant.
-- A Combat encounter. The GM starts it from the Combat Tracker.
-- Players select their token. The action bar opens above the hotbar.
+
 
 ## License
 
